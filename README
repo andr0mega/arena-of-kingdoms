@@ -1,2 +1,5 @@
 Arena of Kingdoms
 
+## Setup
+
+`pip install -r requirements.txt`
