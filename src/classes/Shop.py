@@ -48,9 +48,9 @@ class Shop:
 
     def shop_selected(self, left, top):
         mouse_shop_left = left - self.icon_left
-        shop_right = self.icon_left + self.icon_width
+        shop_right = self.icon_width
         mouse_shop_top = top - self.icon_top
-        shop_bottom = self.icon_top + self.icon_height
+        shop_bottom = self.icon_height
         if 0 < mouse_shop_left < shop_right and 0 < mouse_shop_top < shop_bottom:
             return True
         return False
