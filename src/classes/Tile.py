@@ -1,18 +1,23 @@
 import pygame
 from const.colors import *
 
+
 class Tile(pygame.rect.Rect):
-    def __init__(self, left, top, width, height): 
-        self.left = left +1
-        self.top = top +1
-        self.width = width -2
-        self.height = height -2
+    def __init__(self, left, top, width, height):
+        self.set_dimensions(left, top, width, height)
         self.player = None
         self.hover = False
-        super(Tile, self).__init__(self.left, self.top, self.width, self.height)
+        super(Tile, self).__init__(
+            self.left, self.top, self.width, self.height)
 
     def draw_self(self, canvas):
         pygame.draw.rect(canvas, self.get_color(), self)
+
+    def set_dimensions(self, left, top, width, height):
+        self.left = left + 1
+        self.top = top + 1
+        self.width = width - 2
+        self.height = height - 2
 
     def get_color(self):
         if self.hover:
@@ -20,12 +25,12 @@ class Tile(pygame.rect.Rect):
                 return COLOR_NEUTRAL_TILE_HOVER
             else:
                 return COLOR_PLAYER1_HOVER
-            
+
         if self.player:
             return self.player.color
-        
+
         return COLOR_NEUTRAL_TILE
-    
+
     def set_player(self, player):
         self.player = player
 
