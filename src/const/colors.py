@@ -10,4 +10,7 @@ COLOR_SHOP_BACKGROUND = (30, 30, 30)
 COLOR_SHOP = (243, 243, 243)
 COLOR_SHOP_TEXT = (10, 10, 10)
 
+COLOR_END_TURN_ICON = (244, 211, 70)
+COLOR_END_TURN_TEXT = (10, 10, 10)
+
 #Note: HOVER Colors with function helpers.py/get_hover_color

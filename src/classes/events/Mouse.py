@@ -1,15 +1,23 @@
 import pygame
 
 class Mouse:
-    def __init__(self, board, shop, player):
+    def __init__(self, screen, board, shop, player):
         self.board = board
         self.player = player
         self.shop = shop
+        self.screen = screen
 
     def on_mouse_event(self):
         left, top = pygame.mouse.get_pos()
 
         shop_selected = self.shop.shop_selected(left, top)
+        end_turn_selected = self.screen.end_turn_selected(left, top)
+
+        if end_turn_selected:
+            self.screen.set_end_turn_hover(True)
+        else:
+            self.screen.set_end_turn_hover(False)
+        
         if shop_selected:
             self.shop.set_hover(True)
         else:
@@ -31,8 +39,11 @@ class Mouse:
                 selected_tile = self.board.get_tile(left, top)
                 if shop_selected:
                     self.shop.open_shop()
+                elif end_turn_selected:
+                    self.screen.set_end_turn(True)
                 elif selected_tile != (None, None):
                     self.board.claim_tile(selected_tile[0], selected_tile[1], self.player)
 
             self.board.draw_board()
         self.shop.draw_shop_icon()
+        self.screen.draw_end_turn_icon()
