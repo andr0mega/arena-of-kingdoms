@@ -1,5 +1,6 @@
 import pygame
 from const.colors import *
+from helpers import get_hover_color
 
 class Shop:
     def __init__(self, canvas):
@@ -28,7 +29,7 @@ class Shop:
 
     def get_color(self):
         if self.hover:
-            return COLOR_SHOP_ICON_HOVER
+            return get_hover_color(COLOR_SHOP_ICON)
 
         return COLOR_SHOP_ICON
 

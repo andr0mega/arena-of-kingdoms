@@ -26,15 +26,16 @@ class Board:
         self.board = [[create_tile(column, row) for row in range(self.width)] for column in range(self.width)]
 
     def set_board_dimensions(self):
-        _, _, _, self.height_canvas = self.canvas.get_rect()
+        _, _, self.width_canvas, self.height_canvas = self.canvas.get_rect()
 
         self.board_height = self.height_canvas - self.margin_top - self.margin_bottom
+        self.board_width = self.board_height
         self.tile_width = self.board_height / self.width
 
     def draw_board(self):
         self.set_board_dimensions()
 
-        board_rect = pygame.rect.Rect(self.margin_left, self.margin_top, self.board_height, self.board_height)
+        board_rect = pygame.rect.Rect(self.margin_left, self.margin_top, self.board_width, self.board_height)
         pygame.draw.rect(self.canvas, COLOR_BOARD_BACKGROUND, board_rect)
         for column in range(len(self.board)):
             for row in range(len(self.board[column])):
@@ -47,9 +48,8 @@ class Board:
                 current_tile.draw_self(self.canvas)
     
     def get_tile(self, left, top):
-        #87 521
         mouse_board_left = left - self.margin_left
-        board_right = self.board_height
+        board_right = self.board_width
         mouse_board_top = top - self.margin_top
         board_bottom = self.board_height
 

@@ -1,5 +1,6 @@
 import pygame
 from const.colors import *
+from helpers import get_hover_color
 
 
 class Tile(pygame.rect.Rect):
@@ -22,9 +23,9 @@ class Tile(pygame.rect.Rect):
     def get_color(self):
         if self.hover:
             if not self.player:
-                return COLOR_NEUTRAL_TILE_HOVER
+                return get_hover_color(COLOR_NEUTRAL_TILE)
             else:
-                return COLOR_PLAYER1_HOVER
+                return get_hover_color(self.player.color)
 
         if self.player:
             return self.player.color
