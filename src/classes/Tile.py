@@ -17,8 +17,8 @@ class Tile(pygame.rect.Rect):
     def set_dimensions(self, left, top, width, height):
         self.left = left + 1
         self.top = top + 1
-        self.width = width - 2
-        self.height = height - 2
+        self.width = width - 1
+        self.height = height - 1
 
     def get_color(self):
         if self.hover:
