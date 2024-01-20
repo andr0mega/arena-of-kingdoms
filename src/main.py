@@ -2,9 +2,6 @@ import pygame
 from pygame.locals import *
 from const.colors import *
 from classes.Game import Game
-from classes.Board import Board
-from classes.Player import Player
-from classes.Shop import Shop
 from classes.events.Mouse import Mouse
 
 # params
@@ -22,7 +19,7 @@ canvas.fill(COLOR_WINDOW)
 
 game = Game(canvas, 2)
 game.initialize_game()
-mouse = Mouse(get_screen(), get_board(), get_shop())
+mouse = Mouse(game.board, game.shop)
 
 exit = False
 while not exit:
@@ -39,11 +36,11 @@ while not exit:
             canvas = pygame.display.set_mode(
                 (display_width, display_height), pygame.RESIZABLE)
             canvas.fill(COLOR_WINDOW)
-            board.draw_board()
-            shop.draw_shop_icon()
-            screen.draw_end_turn_icon()
-            if (shop.isopen):
-                shop.draw_shop()
+            game.board.draw_board()
+            #game.shop.draw_shop_icon()
+            #game.screen.draw_end_turn_icon()
+            if (game.shop.isopen):
+                game.shop.draw_shop()
 
         if event.type == pygame.QUIT:
             exit = True

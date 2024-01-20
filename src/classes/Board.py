@@ -62,7 +62,8 @@ class Board:
 
 #b TODO: claim_tile without player
     def claim_tile(self, left, top):
-        self.board[left][top].set_player(player)
+        pass
+#        self.board[left][top].set_player(player)
     
     def reset_hover(self):
         for i in range(len(self.board)):

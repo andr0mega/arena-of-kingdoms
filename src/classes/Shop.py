@@ -1,5 +1,5 @@
 import pygame
-from ScreenElement import ScreenElement
+from classes.ScreenElement import ScreenElement
 from const.colors import *
 
 
@@ -9,10 +9,11 @@ class Shop(ScreenElement):
 
         self.font = pygame.font.SysFont("Rockwell", 38)
         self.isopen = False
+        self.left = self.margin_left
+        self.top = self.margin_top
 
     def set_dimensions(self):
         _, height_canvas = super().get_canvas_dimensions()
-
         self.height = height_canvas - self.margin_top - self.margin_bottom
         self.width = self.height
 
@@ -20,7 +21,7 @@ class Shop(ScreenElement):
         self.set_dimensions()
 
         shop_background_rect = pygame.rect.Rect(
-            self.margin_left - 2, self.margin_top - 2, self.shop_height + 4, self.shop_width + 4)
+            self.margin_left - 2, self.margin_top - 2, self.height + 4, self.width + 4)
 
         pygame.draw.rect(self.canvas, COLOR_SHOP_BACKGROUND,
                          shop_background_rect)

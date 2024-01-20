@@ -1,7 +1,6 @@
-from Player import Player
-from Board import Board
-from Shop import Shop
-from Screen import Screen
+from classes.Player import Player
+from classes.Board import Board
+from classes.Shop import Shop
 from const.colors import *
 
 
@@ -17,13 +16,14 @@ class Game:
             player = Player(f'Player {i+1}', i, PLAYER_COLORS[i])
             self.players[player.nr] = player
             self.turn_cycle.append(player.nr)
-
-        self.screen = Screen(self.canvas)        
+       
         self.board = Board(self.canvas)
         self.shop = Shop(self.canvas)
         self.board.draw_board()
-        self.shop.draw_shop_icon()
-        self.screen.draw_end_turn_icon()
+        self.shop.draw_self()
+#        self.screen.draw_end_turn_icon()
+
+"""
 
     def start_round(self):
         self.start_turn()
@@ -46,3 +46,4 @@ class Game:
         else:
             pass
     
+"""
