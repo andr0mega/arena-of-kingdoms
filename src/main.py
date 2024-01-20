@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from const.colors import *
+from classes.Game import Game
 from classes.Board import Board
 from classes.Player import Player
 from classes.Shop import Shop
@@ -19,16 +20,10 @@ pygame.font.init()
 pygame.display.set_caption("Arena of Kingdoms")
 canvas = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 canvas.fill(COLOR_WINDOW)
-player1 = Player("Maurice", COLOR_PLAYER1)
-player2 = Player("Colin", COLOR_PLAYER2)
-board = Board(canvas)
-shop = Shop(canvas)
-screen = Screen(canvas)
-mouse = Mouse(screen, board, shop, player2)
-board.draw_board()
-shop.draw_shop_icon()
-screen.draw_end_turn_icon()
 
+game = Game(canvas, 2)
+game.initialize_game()
+mouse = Mouse(get_screen(), get_board(), get_shop())
 
 exit = False
 while not exit:

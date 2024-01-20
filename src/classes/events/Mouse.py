@@ -1,9 +1,8 @@
 import pygame
 
 class Mouse:
-    def __init__(self, screen, board, shop, player):
+    def __init__(self, screen, board, shop):
         self.board = board
-        self.player = player
         self.shop = shop
         self.screen = screen
 
@@ -42,7 +41,7 @@ class Mouse:
                 elif end_turn_selected:
                     self.screen.set_end_turn(True)
                 elif selected_tile != (None, None):
-                    self.board.claim_tile(selected_tile[0], selected_tile[1], self.player)
+                    self.board.claim_tile(selected_tile[0], selected_tile[1])
 
             self.board.draw_board()
         self.shop.draw_shop_icon()

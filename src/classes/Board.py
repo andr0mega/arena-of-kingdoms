@@ -60,7 +60,8 @@ class Board:
             return (column, row)
         return (None, None)
 
-    def claim_tile(self, left, top, player):
+#b TODO: claim_tile without player
+    def claim_tile(self, left, top):
         self.board[left][top].set_player(player)
     
     def reset_hover(self):
