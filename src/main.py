@@ -5,7 +5,6 @@ from classes.Game import Game
 from classes.Board import Board
 from classes.Player import Player
 from classes.Shop import Shop
-from classes.Screen import Screen
 from classes.events.Mouse import Mouse
 
 # params

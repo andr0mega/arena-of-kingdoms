@@ -5,8 +5,8 @@ from const.colors import *
 class Board:
     def __init__(self, canvas, width=16):
         self.canvas = canvas
-        self.width = width
-        self.height = width
+        self.tile_rows = width
+        self.tile_columns = width
 
         self.margin_left = 50
         self.margin_top = 50
@@ -23,20 +23,20 @@ class Board:
             )
             return tile
 
-        self.board = [[create_tile(column, row) for row in range(self.width)] for column in range(self.width)]
+        self.board = [[create_tile(column, row) for row in range(self.tile_rows)] for column in range(self.tile_rows)]
 
     def set_board_dimensions(self):
         _, _, self.width_canvas, self.height_canvas = self.canvas.get_rect()
 
         self.board_height = self.height_canvas - self.margin_top - self.margin_bottom
         self.board_width = self.board_height
-        self.tile_width = int(self.board_width / self.width)
-        self.tile_height = int(self.board_height / self.height)
+        self.tile_width = int(self.board_width / self.tile_rows)
+        self.tile_height = int(self.board_height / self.tile_columns)
 
     def draw_board(self):
         self.set_board_dimensions()
 
-        board_rect = pygame.rect.Rect(self.margin_left, self.margin_top, self.tile_width * self.width + 1, self.tile_height * self.height + 1)
+        board_rect = pygame.rect.Rect(self.margin_left, self.margin_top, self.tile_width * self.tile_rows + 1, self.tile_height * self.tile_columns + 1)
         pygame.draw.rect(self.canvas, COLOR_BOARD_BACKGROUND, board_rect)
         for column in range(len(self.board)):
             for row in range(len(self.board[column])):
@@ -50,9 +50,9 @@ class Board:
     
     def get_tile(self, left, top):
         mouse_board_left = left - self.margin_left
-        board_right = self.tile_width * self.width - 1
+        board_right = self.tile_width * self.tile_rows - 1
         mouse_board_top = top - self.margin_top
-        board_bottom = self.tile_height * self.height - 1
+        board_bottom = self.tile_height * self.tile_columns - 1
 
         if 0 < mouse_board_left < board_right and 0 < mouse_board_top < board_bottom:
             column = int(mouse_board_left / self.tile_width)
