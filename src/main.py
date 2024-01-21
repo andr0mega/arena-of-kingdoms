@@ -19,7 +19,8 @@ canvas.fill(COLOR_WINDOW)
 
 game = Game(canvas, 2)
 game.initialize_game()
-mouse = Mouse(game.board, game.shop)
+game.draw_self()
+mouse = Mouse(game.elements)
 
 exit = False
 while not exit:
@@ -36,11 +37,8 @@ while not exit:
             canvas = pygame.display.set_mode(
                 (display_width, display_height), pygame.RESIZABLE)
             canvas.fill(COLOR_WINDOW)
-            game.board.draw_board()
-            #game.shop.draw_shop_icon()
-            #game.screen.draw_end_turn_icon()
-            if (game.shop.isopen):
-                game.shop.draw_shop()
+
+        game.draw_self()
 
         if event.type == pygame.QUIT:
             exit = True

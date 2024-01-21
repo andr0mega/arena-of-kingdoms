@@ -1,6 +1,8 @@
+from classes.EndTurnButton import EndTurnButton
 from classes.Player import Player
 from classes.Board import Board
 from classes.Shop import Shop
+from classes.ShopButton import ShopButton
 from const.colors import *
 
 
@@ -16,12 +18,25 @@ class Game:
             player = Player(f'Player {i+1}', i, PLAYER_COLORS[i])
             self.players[player.nr] = player
             self.turn_cycle.append(player.nr)
-       
+
         self.board = Board(self.canvas)
         self.shop = Shop(self.canvas)
-        self.board.draw_board()
-        self.shop.draw_self()
-#        self.screen.draw_end_turn_icon()
+        self.shop_button = ShopButton(self.canvas, self.shop)
+        self.end_turn_button = EndTurnButton(self.canvas)
+
+        self.elements = [
+            self.board,
+            self.shop,
+            self.shop_button,
+            self.end_turn_button
+        ]
+
+        self.draw_self()
+
+    def draw_self(self):
+        for element in self.elements:
+            element.draw_self()
+
 
 """
 

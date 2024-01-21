@@ -1,54 +1,56 @@
 import pygame
+from classes.ScreenElement import ScreenElement
 from classes.Tile import Tile
 from const.colors import *
 
-class Board:
+
+class Board(ScreenElement):
     def __init__(self, canvas, width=16):
-        self.canvas = canvas
         self.tile_rows = width
         self.tile_columns = width
 
-        self.margin_left = 50
-        self.margin_top = 50
-        self.margin_right = 50
-        self.margin_bottom = 50
-        
-        self.set_board_dimensions()
+        super().__init__(canvas, COLOR_BOARD_BACKGROUND)
 
         def create_tile(column, row):
             tile = Tile(
-                self.margin_left + column * self.tile_width, 
-                self.margin_top + row * self.tile_width, 
+                self.margin_left + column * self.tile_width,
+                self.margin_top + row * self.tile_width,
                 self.tile_width, self.tile_width
             )
             return tile
 
-        self.board = [[create_tile(column, row) for row in range(self.tile_rows)] for column in range(self.tile_rows)]
+        self.board = [[create_tile(column, row) for row in range(
+            self.tile_rows)] for column in range(self.tile_rows)]
 
-    def set_board_dimensions(self):
-        _, _, self.width_canvas, self.height_canvas = self.canvas.get_rect()
+    def set_dimensions(self):
+        _, height_canvas = super().get_canvas_dimensions()
+        base_height = height_canvas - self.margin_top - self.margin_bottom
+        base_width = base_height
+        self.tile_width = int(base_width / self.tile_rows)
+        self.tile_height = int(base_height / self.tile_columns)
 
-        self.board_height = self.height_canvas - self.margin_top - self.margin_bottom
-        self.board_width = self.board_height
-        self.tile_width = int(self.board_width / self.tile_rows)
-        self.tile_height = int(self.board_height / self.tile_columns)
+        self.left = self.margin_left
+        self.top = self.margin_top
 
-    def draw_board(self):
-        self.set_board_dimensions()
+        self.width = self.tile_width * self.tile_rows + 1
+        self.height = self.tile_height * self.tile_columns + 1
 
-        board_rect = pygame.rect.Rect(self.margin_left, self.margin_top, self.tile_width * self.tile_rows + 1, self.tile_height * self.tile_columns + 1)
-        pygame.draw.rect(self.canvas, COLOR_BOARD_BACKGROUND, board_rect)
+    def draw_self(self):
+        super().draw_self()
+
         for column in range(len(self.board)):
             for row in range(len(self.board[column])):
                 current_tile = self.board[column][row]
                 current_tile.set_dimensions(
-                    self.margin_left + column * self.tile_width, 
-                    self.margin_top + row * self.tile_height, 
+                    self.margin_left + column * self.tile_width,
+                    self.margin_top + row * self.tile_height,
                     self.tile_width, self.tile_height
                 )
                 current_tile.draw_self(self.canvas)
-    
-    def get_tile(self, left, top):
+
+    def get_hovered_tile(self):
+        left, top = pygame.mouse.get_pos()
+
         mouse_board_left = left - self.margin_left
         board_right = self.tile_width * self.tile_rows - 1
         mouse_board_top = top - self.margin_top
@@ -60,11 +62,21 @@ class Board:
             return (column, row)
         return (None, None)
 
-#b TODO: claim_tile without player
-    def claim_tile(self, left, top):
+    def on_hover(self, hover):
+        super().on_hover(hover)
+
+        hovered_tile = self.get_hovered_tile()
+        if hovered_tile != (None, None):
+            self.hover_tile(hovered_tile[0], hovered_tile[1])
+        else:
+            self.reset_hover()
+
+    def on_click(self):
+        hovered_tile = self.get_hovered_tile()
+        # TODO: claim tile for current player
+        # self.board[left][top].set_player(player)
         pass
-#        self.board[left][top].set_player(player)
-    
+
     def reset_hover(self):
         for i in range(len(self.board)):
             for j in range(len(self.board[i])):
@@ -73,5 +85,3 @@ class Board:
     def hover_tile(self, left, top):
         self.reset_hover()
         self.board[left][top].set_hover(True)
-
-
