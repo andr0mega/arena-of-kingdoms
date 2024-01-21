@@ -36,8 +36,8 @@ while not exit:
                 display_width = WIDTH
             canvas = pygame.display.set_mode(
                 (display_width, display_height), pygame.RESIZABLE)
-            canvas.fill(COLOR_WINDOW)
 
+        canvas.fill(COLOR_WINDOW)
         game.draw_self()
 
         if event.type == pygame.QUIT:

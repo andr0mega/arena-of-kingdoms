@@ -16,6 +16,9 @@ class Shop(ScreenElement):
         self.left = self.margin_left
         self.top = self.margin_top
 
+    def on_click(self):
+        pass
+
     def draw_self(self):
         self.set_dimensions()
 

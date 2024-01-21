@@ -13,14 +13,32 @@ class Board(ScreenElement):
 
         def create_tile(column, row):
             tile = Tile(
-                self.margin_left + column * self.tile_width,
-                self.margin_top + row * self.tile_width,
-                self.tile_width, self.tile_width
+                canvas,
+                left=self.margin_left + column * self.tile_width,
+                top=self.margin_top + row * self.tile_width,
+                width=self.tile_width, height=self.tile_width,
+                on_tile_click=self.on_tile_click,
+                tile_pos=(column, row)
             )
             return tile
 
         self.board = [[create_tile(column, row) for row in range(
             self.tile_rows)] for column in range(self.tile_rows)]
+
+    def on_tile_click(self, tile):
+        print('clicked tile', tile)
+        # TODO: claim tile for current player
+        # self.board[left][top].set_player(player)
+
+    def on_click(self):
+        pass
+
+    def get_tiles(self):
+        tiles = []
+        for column in self.board:
+            for tile in column:
+                tiles.append(tile)
+        return tiles
 
     def set_dimensions(self):
         _, height_canvas = super().get_canvas_dimensions()
@@ -41,47 +59,8 @@ class Board(ScreenElement):
         for column in range(len(self.board)):
             for row in range(len(self.board[column])):
                 current_tile = self.board[column][row]
-                current_tile.set_dimensions(
+                current_tile.adjust_dimensions(
                     self.margin_left + column * self.tile_width,
                     self.margin_top + row * self.tile_height,
                     self.tile_width, self.tile_height
                 )
-                current_tile.draw_self(self.canvas)
-
-    def get_hovered_tile(self):
-        left, top = pygame.mouse.get_pos()
-
-        mouse_board_left = left - self.margin_left
-        board_right = self.tile_width * self.tile_rows - 1
-        mouse_board_top = top - self.margin_top
-        board_bottom = self.tile_height * self.tile_columns - 1
-
-        if 0 < mouse_board_left < board_right and 0 < mouse_board_top < board_bottom:
-            column = int(mouse_board_left / self.tile_width)
-            row = int(mouse_board_top / self.tile_height)
-            return (column, row)
-        return (None, None)
-
-    def on_hover(self, hover):
-        super().on_hover(hover)
-
-        hovered_tile = self.get_hovered_tile()
-        if hovered_tile != (None, None):
-            self.hover_tile(hovered_tile[0], hovered_tile[1])
-        else:
-            self.reset_hover()
-
-    def on_click(self):
-        hovered_tile = self.get_hovered_tile()
-        # TODO: claim tile for current player
-        # self.board[left][top].set_player(player)
-        pass
-
-    def reset_hover(self):
-        for i in range(len(self.board)):
-            for j in range(len(self.board[i])):
-                self.board[i][j].set_hover(False)
-
-    def hover_tile(self, left, top):
-        self.reset_hover()
-        self.board[left][top].set_hover(True)

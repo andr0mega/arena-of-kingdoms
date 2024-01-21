@@ -1,32 +1,31 @@
 import pygame
+from classes.ScreenElement import ScreenElement
 from const.colors import *
-from helpers import get_hover_color
 
 
-class Tile(pygame.rect.Rect):
-    def __init__(self, left, top, width, height):
-        self.set_dimensions(left, top, width, height)
+class Tile(ScreenElement):
+    def __init__(self, canvas, left, top, width, height, tile_pos, on_tile_click):
+        self.left = left + 1
+        self.top = top + 1
+        self.width = width - 1
+        self.height = height - 1
+
+        super().__init__(canvas, COLOR_NEUTRAL_TILE, hoverable=True)
+
+        self.on_tile_click = on_tile_click
+        self.tile_pos = tile_pos
         self.player = None
-        self.hover = False
-        super(Tile, self).__init__(
-            self.left, self.top, self.width, self.height)
 
-    def draw_self(self, canvas):
-        pygame.draw.rect(canvas, self.get_color(), self)
+    def set_dimensions(self):
+        pass
 
-    def set_dimensions(self, left, top, width, height):
+    def adjust_dimensions(self, left, top, width, height):
         self.left = left + 1
         self.top = top + 1
         self.width = width - 1
         self.height = height - 1
 
     def get_color(self):
-        if self.hover:
-            if not self.player:
-                return get_hover_color(COLOR_NEUTRAL_TILE)
-            else:
-                return get_hover_color(self.player.color)
-
         if self.player:
             return self.player.color
 
@@ -35,5 +34,5 @@ class Tile(pygame.rect.Rect):
     def set_player(self, player):
         self.player = player
 
-    def set_hover(self, hover):
-        self.hover = hover
+    def on_click(self):
+        self.on_tile_click(self.tile_pos)

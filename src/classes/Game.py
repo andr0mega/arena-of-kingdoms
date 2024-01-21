@@ -24,11 +24,14 @@ class Game:
         self.shop_button = ShopButton(self.canvas, self.shop)
         self.end_turn_button = EndTurnButton(self.canvas)
 
+        tiles = self.board.get_tiles()
+
         self.elements = [
             self.board,
             self.shop,
             self.shop_button,
-            self.end_turn_button
+            self.end_turn_button,
+            *tiles
         ]
 
         self.draw_self()

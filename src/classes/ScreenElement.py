@@ -3,13 +3,13 @@ from const.colors import *
 
 
 class ScreenElement:
-    def __init__(self, canvas, color, margin_left=50, margin_top=50, margin_right=50, margin_bottom=50, hoverable=False):
+    def __init__(self, canvas, color, hoverable=False):
         self.canvas = canvas
 
-        self.margin_left = margin_left
-        self.margin_top = margin_top
-        self.margin_right = margin_right
-        self.margin_bottom = margin_bottom
+        self.margin_left = 50
+        self.margin_top = 50
+        self.margin_right = 50
+        self.margin_bottom = 50
         self.border_radius = 0
         self.hoverable = hoverable
 
@@ -37,6 +37,11 @@ class ScreenElement:
     def draw_self(self):
         self.set_dimensions()
 
+        color = self.get_color()
+
+        if self.hover and self.hoverable:
+            color = self.get_hover_color(color)
+
         self.screen_rect = pygame.rect.Rect(
             self.left,
             self.top,
@@ -45,20 +50,12 @@ class ScreenElement:
         )
         pygame.draw.rect(
             self.canvas,
-            self.get_color(),
+            color,
             self.screen_rect,
             border_radius=self.border_radius
         )
 
-    def self_selected(self, mouse_left, mouse_top):
-        if self.left < mouse_left < self.left + self.width and self.top < mouse_top < self.top + self.height:
-            return True
-        return False
-
     def get_color(self):
-        if self.hover and self.hoverable:
-            return self.get_hover_color(self.color)
-
         return self.color
 
     def get_hover_color(self, color_tuple):

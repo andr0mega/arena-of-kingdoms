@@ -7,6 +7,6 @@ class Player:
 
     def enable(self):
         self.active = True
-    
+
     def disable(self):
         self.active = False
