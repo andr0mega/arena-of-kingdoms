@@ -25,7 +25,11 @@ mouse = Mouse(game.elements)
 exit = False
 while not exit:
     for event in pygame.event.get():
-        mouse.on_mouse_event()
+        if event.type == pygame.MOUSEMOTION:
+            mouse.on_mouse_motion()
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse.on_mouse_buttondown()
 
         if event.type == pygame.VIDEORESIZE:
             display_height = event.h

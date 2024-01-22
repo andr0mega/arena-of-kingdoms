@@ -2,7 +2,7 @@ import pygame
 from classes.ScreenElement import ScreenElement
 from classes.Tile import Tile
 from const.colors import *
-
+import const.globals as globals
 
 class Board(ScreenElement):
     def __init__(self, canvas, width=16):
@@ -26,9 +26,7 @@ class Board(ScreenElement):
             self.tile_rows)] for column in range(self.tile_rows)]
 
     def on_tile_click(self, tile):
-        print('clicked tile', tile)
-        # TODO: claim tile for current player
-        # self.board[left][top].set_player(player)
+        self.board[tile[0]][tile[1]].set_player(globals.active_player)
 
     def on_click(self):
         pass

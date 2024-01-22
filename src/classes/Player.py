@@ -5,8 +5,6 @@ class Player:
         self.nr = nr
         self.active = False
 
-    def enable(self):
-        self.active = True
+    def toggle_active(self, active):
+        self.active = active
 
-    def disable(self):
-        self.active = False

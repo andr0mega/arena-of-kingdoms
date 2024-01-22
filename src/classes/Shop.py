@@ -20,10 +20,10 @@ class Shop(ScreenElement):
         pass
 
     def draw_self(self):
-        self.set_dimensions()
-
         if not self.isopen:
             return
+
+        self.set_dimensions()
 
         shop_background_rect = pygame.rect.Rect(
             self.margin_left - 2, self.margin_top - 2, self.height + 4, self.width + 4)

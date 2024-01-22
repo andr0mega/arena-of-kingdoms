@@ -4,6 +4,7 @@ from classes.Board import Board
 from classes.Shop import Shop
 from classes.ShopButton import ShopButton
 from const.colors import *
+import const.globals as globals
 
 
 class Game:
@@ -18,6 +19,8 @@ class Game:
             player = Player(f'Player {i+1}', i, PLAYER_COLORS[i])
             self.players[player.nr] = player
             self.turn_cycle.append(player.nr)
+
+        globals.active_player = self.players[self.turn_cycle[0]]
 
         self.board = Board(self.canvas)
         self.shop = Shop(self.canvas)

@@ -6,10 +6,8 @@ class Mouse:
         self.elements = elements
         self.mouse_pressed_reset = False
 
-    def on_mouse_event(self):
+    def on_mouse_motion(self):
         pos = pygame.mouse.get_pos()
-
-        mouse_pressed = pygame.mouse.get_pressed()[0]
 
         for element in self.elements:
             element.on_hover(False)
@@ -18,7 +16,14 @@ class Mouse:
                 if element.screen_rect.collidepoint(pos):
                     element.on_hover(True)
 
-                    if (not mouse_pressed and self.mouse_pressed_reset == True):
-                        element.on_click()
+
+    def on_mouse_buttondown(self):
+        pos = pygame.mouse.get_pos()
+        mouse_pressed = pygame.mouse.get_pressed()[0]
+
+        for element in self.elements:
+            if hasattr(element, 'screen_rect'):
+                if element.screen_rect.collidepoint(pos):
+                    element.on_click()
 
         self.mouse_pressed_reset = mouse_pressed
