@@ -3,8 +3,5 @@ class Player:
         self.name = name
         self.color = color
         self.nr = nr
-        self.active = False
-
-    def toggle_active(self, active):
-        self.active = active
+        self.balance = 20
 

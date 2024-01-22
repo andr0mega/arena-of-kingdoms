@@ -4,13 +4,14 @@ from const.colors import *
 
 
 class ShopButton(ScreenElement):
-    def __init__(self, canvas, shop):
+    def __init__(self, canvas, shop, board):
         super().__init__(canvas, COLOR_SHOP_ICON, hoverable=True)
 
         self.font = pygame.font.SysFont("Rockwell", 38)
         self.border_radius = 20
 
         self.shop = shop
+        self.board = board
 
     def set_dimensions(self):
         width_canvas, _ = super().get_canvas_dimensions()

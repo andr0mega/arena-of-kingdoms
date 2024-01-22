@@ -17,7 +17,7 @@ pygame.display.set_caption("Arena of Kingdoms")
 canvas = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 canvas.fill(COLOR_WINDOW)
 
-game = Game(canvas, 2)
+game = Game(canvas, 6)
 game.initialize_game()
 game.draw_self()
 mouse = Mouse(game.elements)

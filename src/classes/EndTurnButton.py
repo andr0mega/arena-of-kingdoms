@@ -2,15 +2,14 @@ import pygame
 from classes.ScreenElement import ScreenElement
 from const.colors import *
 
-
 class EndTurnButton(ScreenElement):
-    def __init__(self, canvas):
+    def __init__(self, canvas, on_click_callback):
         super().__init__(canvas, COLOR_END_TURN_ICON, hoverable=True)
 
         self.font = pygame.font.SysFont("Rockwell", 28)
         self.border_radius = 18
 
-        self.end_turn = False
+        self.on_click_callback = on_click_callback
 
     def set_dimensions(self):
         width_canvas, height_canvas = super().get_canvas_dimensions()
@@ -30,5 +29,5 @@ class EndTurnButton(ScreenElement):
         self.canvas.blit(render_text, (text_left, text_top))
 
     def on_click(self):
-        self.end_turn = True
-        print("turn ended")
+        self.on_click_callback()
+

@@ -26,7 +26,12 @@ class Board(ScreenElement):
             self.tile_rows)] for column in range(self.tile_rows)]
 
     def on_tile_click(self, tile):
-        self.board[tile[0]][tile[1]].set_player(globals.active_player)
+        if globals.phase == "deployment" and not globals.deployment_lock:
+            for i in range(max(tile[0] - 1, 0), min(tile[0] + 2, self.tile_columns)):
+                for j in range(max(tile[1] - 1, 0), min(tile[1] + 2, self.tile_columns)):
+                    self.board[i][j].set_player(globals.active_player)
+            #Add graphics/sprites/king.png here, centered on the tile
+            globals.deployment_lock = True
 
     def on_click(self):
         pass
@@ -52,6 +57,7 @@ class Board(ScreenElement):
         self.height = self.tile_height * self.tile_columns + 1
 
     def draw_self(self):
+
         super().draw_self()
 
         for column in range(len(self.board)):
@@ -62,3 +68,5 @@ class Board(ScreenElement):
                     self.margin_top + row * self.tile_height,
                     self.tile_width, self.tile_height
                 )
+
+
