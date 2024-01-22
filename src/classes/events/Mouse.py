@@ -11,7 +11,7 @@ class Mouse:
         for element in self.elements:
             element.on_hover(False)
 
-            if hasattr(element, 'screen_rect'):
+            if hasattr(element, 'screen_rect') and element.screen_rect is not None:
                 if element.screen_rect.collidepoint(pos):
                     element.on_hover(True)
 
@@ -20,7 +20,7 @@ class Mouse:
         pos = pygame.mouse.get_pos()
 
         for element in self.elements:
-            if hasattr(element, 'screen_rect'):
+            if hasattr(element, 'screen_rect') and element.screen_rect is not None:
                 if element.screen_rect.collidepoint(pos):
                     element.on_click()
 

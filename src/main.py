@@ -41,11 +41,11 @@ while not exit:
             canvas = pygame.display.set_mode(
                 (display_width, display_height), pygame.RESIZABLE)
 
-        canvas.fill(COLOR_WINDOW)
-        game.draw_self()
-
         if event.type == pygame.QUIT:
             exit = True
+
+    canvas.fill(COLOR_WINDOW)
+    game.draw_self()
 
     pygame.display.update()
     CLOCK.tick(FPS)

@@ -17,6 +17,7 @@ class Shop(ScreenElement):
         self.top = self.margin_top
 
     def on_click(self):
+        print('shopity shop shop')
         pass
 
     def draw_self(self):

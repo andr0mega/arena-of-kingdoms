@@ -48,6 +48,7 @@ class Game:
 
     def draw_self(self):
         for element in self.elements:
+            element.screen_rect = None
             element.draw_self()
 
     def start_gearup_phase(self):

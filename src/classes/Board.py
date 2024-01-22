@@ -4,6 +4,7 @@ from classes.Tile import Tile
 from const.colors import *
 import const.globals as globals
 
+
 class Board(ScreenElement):
     def __init__(self, canvas, width=16):
         self.tile_rows = width
@@ -18,9 +19,12 @@ class Board(ScreenElement):
                 top=self.margin_top + row * self.tile_width,
                 width=self.tile_width, height=self.tile_width,
                 on_tile_click=self.on_tile_click,
-                tile_pos=(column, row)
+                tile_pos=(column, row),
+                board=self
             )
             return tile
+
+        self.is_visible = True
 
         self.board = [[create_tile(column, row) for row in range(
             self.tile_rows)] for column in range(self.tile_rows)]
@@ -30,7 +34,7 @@ class Board(ScreenElement):
             for i in range(max(tile[0] - 1, 0), min(tile[0] + 2, self.tile_columns)):
                 for j in range(max(tile[1] - 1, 0), min(tile[1] + 2, self.tile_columns)):
                     self.board[i][j].set_player(globals.active_player)
-            #Add graphics/sprites/king.png here, centered on the tile
+            # Add graphics/sprites/king.png here, centered on the tile
             globals.deployment_lock = True
 
     def on_click(self):
@@ -56,7 +60,13 @@ class Board(ScreenElement):
         self.width = self.tile_width * self.tile_rows + 1
         self.height = self.tile_height * self.tile_columns + 1
 
+    def set_visibility(self, visibility):
+        self.is_visible = visibility
+
     def draw_self(self):
+
+        if not self.is_visible:
+            return
 
         super().draw_self()
 
@@ -68,5 +78,3 @@ class Board(ScreenElement):
                     self.margin_top + row * self.tile_height,
                     self.tile_width, self.tile_height
                 )
-
-

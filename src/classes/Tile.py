@@ -4,7 +4,7 @@ from const.colors import *
 
 
 class Tile(ScreenElement):
-    def __init__(self, canvas, left, top, width, height, tile_pos, on_tile_click):
+    def __init__(self, canvas, left, top, width, height, tile_pos, on_tile_click, board):
         self.left = left + 1
         self.top = top + 1
         self.width = width - 1
@@ -14,7 +14,14 @@ class Tile(ScreenElement):
 
         self.on_tile_click = on_tile_click
         self.tile_pos = tile_pos
+        self.board = board
         self.player = None
+
+    def draw_self(self):
+        if not self.board.is_visible:
+            return
+
+        super().draw_self()
 
     def set_dimensions(self):
         pass
