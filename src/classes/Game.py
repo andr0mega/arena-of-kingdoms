@@ -77,32 +77,3 @@ class Game:
                 self.start_income_phase()
             elif globals.phase == "income":
                 self.start_gearup_phase()
-
-
-
-    def update_active_player(self):
-        pass
-
-"""
-    def start_round(self):
-        self.start_turn()
-
-    def start_turn(self):
-        for player in self.players.values():
-            if player.nr == self.turn_cycle[0]:
-                player.enable()
-        
-    def end_turn(self):
-        for player in self.players.values():
-            if player.active == True:
-                player.active = False
-        del self.turn_cycle[0]
-        self.end_phase()
-
-    def end_phase(self):
-        if len(self.turn_cycle):
-            #do something
-        else:
-            pass
-    
-"""
