@@ -27,17 +27,16 @@ class Tile(ScreenElement):
 
         super().draw_self()
 
-        # if self.has_king:
+        if self.has_king:
+            image_height = int(self.height * 0.75)
+            image_width = int(self.width * 0.75)
+            tile_center_top = self.top + self.height / 2 - image_height / 2
+            tile_center_left = self.left + self.width / 2 - image_width / 2
 
-        image_height = int(self.height * 0.75)
-        image_width = int(self.width * 0.75)
-        tile_center_top = self.top + self.height / 2 - image_height / 2
-        tile_center_left = self.left + self.width / 2 - image_width / 2
+            scaled_image = pygame.transform.smoothscale(
+                SPRITES['king_big'], (image_width, image_height))
 
-        scaled_image = pygame.transform.smoothscale(
-            SPRITES['king_big'], (image_width, image_height))
-
-        self.canvas.blit(scaled_image, (tile_center_top, tile_center_left))
+            self.canvas.blit(scaled_image, (tile_center_left, tile_center_top))
 
     def set_dimensions(self):
         pass
