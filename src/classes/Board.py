@@ -35,6 +35,7 @@ class Board(ScreenElement):
                 for j in range(max(tile[1] - 1, 0), min(tile[1] + 2, self.tile_columns)):
                     self.board[i][j].set_player(globals.active_player)
             # Add graphics/sprites/king.png here, centered on the tile
+            self.board[tile[1]][tile[0]].has_king = True
             globals.deployment_lock = True
 
     def on_click(self):

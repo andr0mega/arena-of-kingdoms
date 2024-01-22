@@ -3,11 +3,12 @@ from pygame.locals import *
 from const.colors import *
 from classes.Game import Game
 from classes.events.Mouse import Mouse
+from const.sprites import load_sprites
 
 # params
 WIDTH = 680
 HEIGHT = 468
-FPS = 60
+FPS = 30
 CLOCK = pygame.time.Clock()
 
 # initialize game
@@ -16,6 +17,8 @@ pygame.font.init()
 pygame.display.set_caption("Arena of Kingdoms")
 canvas = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 canvas.fill(COLOR_WINDOW)
+
+load_sprites()
 
 game = Game(canvas, 6)
 game.initialize_game()
@@ -41,11 +44,11 @@ while not exit:
             canvas = pygame.display.set_mode(
                 (display_width, display_height), pygame.RESIZABLE)
 
+        canvas.fill(COLOR_WINDOW)
+        game.draw_self()
+
         if event.type == pygame.QUIT:
             exit = True
-
-    canvas.fill(COLOR_WINDOW)
-    game.draw_self()
 
     pygame.display.update()
     CLOCK.tick(FPS)
