@@ -3,6 +3,7 @@ from classes.Player import Player
 from classes.Board import Board
 from classes.Shop import Shop
 from classes.ShopButton import ShopButton
+from classes.PlayerInfo import PlayerInfoboxBorder, PlayerInfobox
 from const.colors import *
 import const.globals as globals
 
@@ -15,11 +16,25 @@ class Game:
         self.player_cycle = []
 
     def initialize_game(self):
-        #Initialize Screen elements
+        #Initialize Board and Players
         self.board = Board(self.canvas)
+        for i in range(self.nr_players):
+            player = Player(f'Player {i+1}', i, PLAYER_COLORS[i], self.board)
+            self.players[player.nr] = player
+            self.player_cycle.append(player.nr)
+
+        #Initialize First turn and deployment phase
+        self.player_cycle_index = 0
+        globals.active_player = self.players[self.player_cycle[self.player_cycle_index]]
+        globals.turn = 1
+        globals.phase = "deployment"
+
+        #Initialize Screen elements
         self.shop = Shop(self.canvas)
         self.shop_button = ShopButton(self.canvas, self.shop, self.board)
         self.end_turn_button = EndTurnButton(self.canvas, self.end_phase)
+        self.player_infobox_border = PlayerInfoboxBorder(self.canvas)
+        self.player_infobox = PlayerInfobox(self.canvas, self.players)
 
         tiles = self.board.get_tiles()
 
@@ -28,22 +43,12 @@ class Game:
             self.shop,
             self.shop_button,
             self.end_turn_button,
+            self.player_infobox_border,
+            self.player_infobox,
             *tiles
         ]
 
         self.draw_self()
-
-        #Initialize Players
-        for i in range(self.nr_players):
-            player = Player(f'Player {i+1}', i, PLAYER_COLORS[i])
-            self.players[player.nr] = player
-            self.player_cycle.append(player.nr)
-        
-        #Initialize First turn and deployment phase
-        self.player_cycle_index = 0
-        globals.active_player = self.players[self.player_cycle[self.player_cycle_index]]
-        globals.turn = 1
-        globals.phase = "deployment"
 
 
     def draw_self(self):

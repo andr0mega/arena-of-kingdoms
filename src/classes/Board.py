@@ -17,7 +17,8 @@ class Board(ScreenElement):
                 canvas,
                 left=self.margin_left + column * self.tile_width,
                 top=self.margin_top + row * self.tile_width,
-                width=self.tile_width, height=self.tile_width,
+                width=self.tile_width, 
+                height=self.tile_width,
                 on_tile_click=self.on_tile_click,
                 tile_pos=(column, row),
                 board=self
@@ -31,12 +32,17 @@ class Board(ScreenElement):
 
     def on_tile_click(self, tile):
         if globals.phase == "deployment" and not globals.deployment_lock:
+            tiles_to_deploy = []
             for i in range(max(tile[0] - 1, 0), min(tile[0] + 2, self.tile_columns)):
                 for j in range(max(tile[1] - 1, 0), min(tile[1] + 2, self.tile_columns)):
-                    self.board[i][j].set_player(globals.active_player)
-            # Add graphics/sprites/king.png here, centered on the tile
-            self.board[tile[0]][tile[1]].has_king = True
-            globals.deployment_lock = True
+                    if self.board[i][j].player == None:
+                        tiles_to_deploy.append(self.board[i][j])
+                    
+            if len(tiles_to_deploy) == 9:
+                for tile_deploy in tiles_to_deploy:
+                    tile_deploy.set_player(globals.active_player)
+                self.board[tile[0]][tile[1]].has_king = True
+                globals.deployment_lock = True
 
     def on_click(self):
         pass
@@ -63,6 +69,13 @@ class Board(ScreenElement):
 
     def set_visibility(self, visibility):
         self.is_visible = visibility
+
+    def get_tiles_for_player(self, player):
+        tile_amount = 0
+        for tile in self.get_tiles():
+            if tile.player == player:
+                tile_amount += 1
+        return tile_amount
 
     def draw_self(self):
 

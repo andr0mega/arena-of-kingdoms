@@ -1,6 +1,7 @@
 import pygame
 from classes.ScreenElement import ScreenElement
 from const.colors import *
+from const.params import *
 
 class EndTurnButton(ScreenElement):
     def __init__(self, canvas, on_click_callback):
@@ -14,8 +15,8 @@ class EndTurnButton(ScreenElement):
     def set_dimensions(self):
         width_canvas, height_canvas = super().get_canvas_dimensions()
 
-        self.width = 150
-        self.height = 50
+        self.width = END_TURN_BUTTON_WIDTH
+        self.height = END_TURN_BUTTON_HEIGHT
         self.top = height_canvas - self.margin_bottom - self.height
         self.left = width_canvas - self.margin_right - self.width
 

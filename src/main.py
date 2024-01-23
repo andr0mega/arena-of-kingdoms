@@ -4,6 +4,7 @@ from const.colors import *
 from classes.Game import Game
 from classes.events.Mouse import Mouse
 from const.sprites import load_sprites
+from const.params import *
 
 # params
 WIDTH = 680
@@ -20,7 +21,7 @@ canvas.fill(COLOR_WINDOW)
 
 load_sprites()
 
-game = Game(canvas, 6)
+game = Game(canvas, PLAYER_AMOUNT)
 game.initialize_game()
 game.draw_self()
 mouse = Mouse(game.elements)

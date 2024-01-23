@@ -1,15 +1,16 @@
 import pygame
 from const.colors import *
+from const.params import *
 
 
 class ScreenElement:
     def __init__(self, canvas, color, hoverable=False):
         self.canvas = canvas
 
-        self.margin_left = 50
-        self.margin_top = 50
-        self.margin_right = 50
-        self.margin_bottom = 50
+        self.margin_left = MARGIN_LEFT
+        self.margin_top = MARGIN_TOP
+        self.margin_right = MARGIN_RIGHT
+        self.margin_bottom = MARGIN_BOTTOM
         self.border_radius = 0
         self.hoverable = hoverable
 

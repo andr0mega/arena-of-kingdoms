@@ -1,6 +1,7 @@
 import pygame
 from classes.ScreenElement import ScreenElement
 from const.colors import *
+from const.params import *
 
 
 class Shop(ScreenElement):
@@ -27,7 +28,7 @@ class Shop(ScreenElement):
         self.set_dimensions()
 
         shop_background_rect = pygame.rect.Rect(
-            self.margin_left - 2, self.margin_top - 2, self.height + 4, self.width + 4)
+            self.margin_left - RECT_BORDER, self.margin_top - RECT_BORDER, self.height + 2 * RECT_BORDER, self.width + 2 * RECT_BORDER)
 
         pygame.draw.rect(self.canvas, COLOR_SHOP_BACKGROUND,
                          shop_background_rect)

@@ -1,6 +1,7 @@
 import pygame
 from classes.ScreenElement import ScreenElement
 from const.colors import *
+from const.params import *
 
 
 class ShopButton(ScreenElement):
@@ -16,8 +17,8 @@ class ShopButton(ScreenElement):
     def set_dimensions(self):
         width_canvas, _ = super().get_canvas_dimensions()
 
-        self.width = 150
-        self.height = 60
+        self.width = SHOP_BUTTON_WIDTH
+        self.height = SHOP_BUTTON_HEIGHT
         self.top = self.margin_top
         self.left = width_canvas - self.margin_right - self.width
 
