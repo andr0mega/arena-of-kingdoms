@@ -3,8 +3,8 @@ from classes.elements.Unit import Unit
 from const.sprites import SPRITES
 
 class Warrior(Unit):
-    def __init__(self):
-        super().__init__(name="Warrior", 
+    def __init__(self, name):
+        super().__init__(name, 
                          cost=WARRIOR_COST, 
                          health=WARRIOR_HEALTH, 
                          off=WARRIOR_OFF, 
