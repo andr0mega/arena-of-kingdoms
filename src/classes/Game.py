@@ -7,6 +7,8 @@ from classes.PlayerInfo import PlayerInfoboxBorder, PlayerInfobox
 from const.colors import *
 import const.globals as globals
 
+from classes.elements import King, Warrior, Goldmine
+
 
 class Game:
     def __init__(self, canvas, nr_players):
@@ -20,6 +22,7 @@ class Game:
         self.board = Board(self.canvas)
         for i in range(self.nr_players):
             player = Player(f'Player {i+1}', i, PLAYER_COLORS[i], self.board)
+            player.add_unit(King("king"))
             self.players[player.nr] = player
             self.player_cycle.append(player.nr)
 

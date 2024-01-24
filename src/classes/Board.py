@@ -41,7 +41,7 @@ class Board(ScreenElement):
             if len(tiles_to_deploy) == 9:
                 for tile_deploy in tiles_to_deploy:
                     tile_deploy.set_player(globals.active_player)
-                self.board[tile[0]][tile[1]].has_king = True
+                self.board[tile[0]][tile[1]].set_unit(globals.active_player.units["king"])
                 globals.deployment_lock = True
 
     def on_click(self):

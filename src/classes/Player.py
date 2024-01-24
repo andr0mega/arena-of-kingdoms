@@ -8,7 +8,11 @@ class Player:
         self.balance = START_BALANCE
 
         self.board = board
+        self.units = {}
 
     def get_tile_amount(self):
         return self.board.get_tiles_for_player(self)
+    
+    def add_unit(self, unit):
+        self.units[unit.name] = unit
 

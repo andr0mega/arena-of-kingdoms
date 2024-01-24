@@ -41,7 +41,10 @@ class PlayerInfobox(ScreenElement):
     def draw_self(self):
         super().draw_self()
 
-        text = [f'Current Player:  {globals.active_player.name}',
+        text = [f'Turn:  {globals.turn}',
+                f'Phase:  {globals.phase.capitalize()}',
+                f' ',
+                f'Current Player:  {globals.active_player.name}',
                 f'Balance:  {globals.active_player.balance}',
                 f'Tiles:  {globals.active_player.get_tile_amount()}']
         

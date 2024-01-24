@@ -19,7 +19,8 @@ class Tile(ScreenElement):
         self.board = board
         self.player = None
 
-        self.has_king = False
+        self.unit = None
+        self.building = None
 
     def draw_self(self):
         if not self.board.is_visible:
@@ -27,14 +28,14 @@ class Tile(ScreenElement):
 
         super().draw_self()
 
-        if self.has_king:
+        if self.unit != None:
             image_height = int(self.height * 0.75)
             image_width = int(self.width * 0.75)
             tile_center_top = self.top + self.height / 2 - image_height / 2
             tile_center_left = self.left + self.width / 2 - image_width / 2
 
             scaled_image = pygame.transform.smoothscale(
-                SPRITES['king_big'], (image_width, image_height))
+                self.unit.get_image(), (image_width, image_height))
 
             self.canvas.blit(scaled_image, (tile_center_left, tile_center_top))
 
@@ -55,6 +56,9 @@ class Tile(ScreenElement):
 
     def set_player(self, player):
         self.player = player
+
+    def set_unit(self, unit):
+        self.unit = unit
 
     def on_click(self):
         self.on_tile_click(self.tile_pos)
