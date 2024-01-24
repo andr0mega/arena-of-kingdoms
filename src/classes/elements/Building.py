@@ -8,3 +8,7 @@ class Building(Purchasable):
         self.blocking = blocking
         self.production = production
         self.description = description
+        self.image = image
+
+    def get_image(self):
+        return self.image

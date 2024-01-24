@@ -3,11 +3,11 @@ from classes.Player import Player
 from classes.Board import Board
 from classes.Shop import Shop
 from classes.ShopButton import ShopButton
-from classes.PlayerInfo import PlayerInfoboxBorder, PlayerInfobox
+from classes.Infobox import PlayerInfoboxBorder, PlayerInfobox, TileInfoboxBorder, TileInfobox
 from const.colors import *
 import const.globals as globals
 
-from classes.elements import King, Warrior, Goldmine
+from classes.elements import *
 
 
 class Game:
@@ -22,7 +22,7 @@ class Game:
         self.board = Board(self.canvas)
         for i in range(self.nr_players):
             player = Player(f'Player {i+1}', i, PLAYER_COLORS[i], self.board)
-            player.add_unit(King("king"))
+            player.add_unit(Goldmine("king"))
             self.players[player.nr] = player
             self.player_cycle.append(player.nr)
 
@@ -33,22 +33,26 @@ class Game:
         globals.phase = "deployment"
 
         #Initialize Screen elements
+        tiles = self.board.get_tiles()
+
         self.shop = Shop(self.canvas)
         self.shop_button = ShopButton(self.canvas, self.shop, self.board)
         self.end_turn_button = EndTurnButton(self.canvas, self.end_phase)
         self.player_infobox_border = PlayerInfoboxBorder(self.canvas)
         self.player_infobox = PlayerInfobox(self.canvas, self.players)
-
-        tiles = self.board.get_tiles()
+        self.tile_infobox_border = TileInfoboxBorder(self.canvas)
+        self.tile_infobox = TileInfobox(self.canvas)
 
         self.elements = [
             self.board,
+            *tiles,
             self.shop,
             self.shop_button,
             self.end_turn_button,
             self.player_infobox_border,
             self.player_infobox,
-            *tiles
+            self.tile_infobox_border,
+            self.tile_infobox
         ]
 
         self.draw_self()

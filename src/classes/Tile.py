@@ -1,8 +1,7 @@
-import os
 import pygame
 from classes.ScreenElement import ScreenElement
 from const.colors import *
-from const.sprites import SPRITES
+import const.globals as globals
 
 
 class Tile(ScreenElement):
