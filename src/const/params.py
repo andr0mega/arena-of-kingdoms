@@ -1,3 +1,5 @@
+import json
+
 #GUI
 MARGIN_TOP = 30
 MARGIN_LEFT = 30
@@ -20,6 +22,13 @@ SPACING_INFO_BOXES_HEIGHT = 20
 PLAYER_AMOUNT = 4
 START_BALANCE = 20
 
+GAME_SETTINGS = json.dumps([{
+    "player_amount": 4,
+    "start_balance": 20,
+    "board_width": 16,
+    "board_height": 16
+}])
+
 #ELEMENTS
 KING_HEALTH = 50
 KING_OFF = 3
@@ -41,3 +50,33 @@ GOLDMINE_HEALTH = 10
 GOLDMINE_BLOCKING = False
 GOLDMINE_PRODUCTION = 3
 GOLDMINE_DESCRIPTION = "Building to generate passive income"
+
+KING = json.dumps({
+    "health": 50,
+    "offense": 3,
+    "defence": 3,
+    "speed": 1,
+    "upkeep": 0 })
+
+TROOPS = json.dumps([{
+    "display_name": "Warrior",
+    "name": "warrior",
+    "cost": 20,
+    "health": 20,
+    "offense": 10,
+    "defence": 5,
+    "speed": 1,
+    "upkeep": 3,
+    "description": "Slow but powerful offensive unit"
+}])
+
+BUILDINGS = json.dumps([{
+    "display_name": "Goldmine",
+    "name": "goldmine",
+    "cost": 20,
+    "health": 10,
+    "blocking": False,
+    "production": 3,
+    "description": "Building to generate passive income"
+}])
+
