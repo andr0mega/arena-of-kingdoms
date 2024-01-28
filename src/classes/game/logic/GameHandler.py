@@ -13,4 +13,5 @@ class GameHandler:
     def create_board(self, width, height):
         self.board = GameBoard(width, height)
 
-    def load_config(self, )
+    def load_config(self, game_config):
+        self.game_config = game_config

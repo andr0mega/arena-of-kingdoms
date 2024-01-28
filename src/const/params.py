@@ -54,7 +54,7 @@ GOLDMINE_DESCRIPTION = "Building to generate passive income"
 KING = json.dumps({
     "health": 50,
     "offense": 3,
-    "defence": 3,
+    "defense": 3,
     "speed": 1,
     "upkeep": 0 })
 
@@ -64,7 +64,7 @@ TROOPS = json.dumps([{
     "cost": 20,
     "health": 20,
     "offense": 10,
-    "defence": 5,
+    "defense": 5,
     "speed": 1,
     "upkeep": 3,
     "description": "Slow but powerful offensive unit"
