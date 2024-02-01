@@ -16,3 +16,7 @@ class GameConfig:
                      troop.defense,
                      troop.speed,
                      troop.upkeep) for troop in troops]
+
+    #Returns first found config of troop name (if none found returns None)
+    def get_troop_config(self, troopName):
+        return next(troop for troop in self.troops if troop.name == troopName)

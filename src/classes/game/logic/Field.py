@@ -1,7 +1,12 @@
+from classes.game.logic.GamePlayer import GamePlayer
+from classes.game.logic.unit.Building import Building
+from classes.game.logic.unit.Troop import Troop
+
+
 class Field:    
-    def __init__(self, owner, unit, building):
+    def __init__(self, owner: GamePlayer, troop: Troop, building: Building):
         self.owner = owner
-        self.unit = unit
+        self.troop = troop
         self.building = building
 
 
@@ -12,17 +17,17 @@ class Field:
     class Builder:
         def __init__(self):
             self.owner = None
-            self.unit = None
+            self.troop = None
             self.building = None
 
-        def set_owner(self, owner):
+        def set_owner(self, owner: GamePlayer):
             self.owner = owner
 
-        def set_unit(self, unit):
-            self.unit = unit
+        def set_troop(self, troop: Troop):
+            self.troop = troop
 
-        def set_building(self, building):
+        def set_building(self, building: Building):
             self.building = building
         
         def build(self):
-            return Field(self.owner, self.unit, self.building)
+            return Field(self.owner, self.troop, self.building)

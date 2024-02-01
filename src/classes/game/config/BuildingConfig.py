@@ -1,5 +1,5 @@
 class TroopConfig:
-    def __init__(self, display_name: str, name: str, cost: int, health: int, offense: int, defense: int, speed: int, upkeep: int, description: str):
+    def __init__(self, display_name, name, cost, health, offense, defense, speed, upkeep, description):
         self.display_name = display_name
         self.name = name
         self.cost = cost
