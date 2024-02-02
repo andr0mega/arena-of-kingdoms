@@ -1,10 +1,13 @@
 import pygame
 from pygame.locals import *
+from classes.game.config.GameConfig import GameConfig
+from classes.game.logic.GameHandler import GameHandler
 from const.colors import *
 from classes.Game import Game
 from classes.events.Mouse import Mouse
 from const.sprites import load_sprites
 from const.params import *
+from const.colors import *
 
 # params
 WIDTH = 680
@@ -25,6 +28,16 @@ game = Game(canvas, PLAYER_AMOUNT)
 game.initialize_game()
 game.draw_self()
 mouse = Mouse(game.elements)
+gameHandler = GameHandler.get_instance()
+gameHandler.create_board(WIDTH, HEIGHT)
+gameHandler.set_config(GameConfig())
+for player in range(PLAYER_AMOUNT):
+    gameHandler.register_player(f"Player-{player}", PLAYER_COLORS[player])
+started = gameHandler.start_game()
+if(not started):
+    print("something wrong:")
+    print(gameHandler.board)
+    print(gameHandler.game_config)
 
 exit = False
 while not exit:

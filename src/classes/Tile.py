@@ -1,6 +1,12 @@
+from distutils.command.build_clib import build_clib
 import pygame
 from classes.ScreenElement import ScreenElement
+from classes.elements.Building import Building
+from classes.game.logic.GamePlayer import GamePlayer
+from classes.game.logic.unit.Troop import Troop
 from const.colors import *
+from classes.ImageHelper import get_image_for_building
+from classes.ImageHelper import get_image_for_troop
 import const.globals as globals
 
 
@@ -34,7 +40,7 @@ class Tile(ScreenElement):
             tile_center_left = self.left + self.width / 2 - image_width / 2
 
             scaled_image = pygame.transform.smoothscale(
-                self.unit.get_image(), (image_width, image_height))
+                get_image_for_troop(self.unit.name), (image_width, image_height))
 
             self.canvas.blit(scaled_image, (tile_center_left, tile_center_top))
 
@@ -53,11 +59,14 @@ class Tile(ScreenElement):
 
         return COLOR_NEUTRAL_TILE
 
-    def set_player(self, player):
+    def set_player(self, player: GamePlayer):
         self.player = player
 
-    def set_unit(self, unit):
+    def set_unit(self, unit: Troop):
         self.unit = unit
 
     def on_click(self):
         self.on_tile_click(self.tile_pos)
+
+    def set_building(self, building):
+        self.building = building

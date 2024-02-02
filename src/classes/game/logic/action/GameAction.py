@@ -1,8 +1,6 @@
 from enum import Enum
-from classes.game.logic.action.GameAction import ActionType
-
 class GameAction:
-    def __init__(self, type: ActionType):
+    def __init__(self, type):
         self.type = type
 
 

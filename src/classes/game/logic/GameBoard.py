@@ -1,5 +1,5 @@
 from const.params import *
-from Field import *
+from classes.game.logic.Field import Field
 
 
 class GameBoard:

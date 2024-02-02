@@ -1,10 +1,10 @@
-from GameAction import GameAction
-from GameBoard import GameCoordinate
-from GameAction import ActionType
+from classes.game.logic.action.GameAction import GameAction
+from classes.game.logic.GameBoard import GameCoordinate
+from classes.game.logic.action.GameAction import ActionType
 from classes.game.logic.unit.Unit import Unit
 
 
-class MoveAction(GameAction):
+class PlaceAction(GameAction):
     def __init__(self, onField: GameCoordinate, unit: Unit):
         self.onField = onField
         self.unit = unit

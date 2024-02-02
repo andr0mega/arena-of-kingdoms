@@ -1,7 +1,4 @@
-from GameHandler import GameHandler
-from GameBoard import GameCoordinate
-
-def valid_king_position(gameHandler: GameHandler, coordinate: GameCoordinate):
+def valid_king_position(gameHandler, coordinate):
     board = gameHandler.board
     x = coordinate.x
     y = coordinate.y
@@ -16,3 +13,5 @@ def valid_king_position(gameHandler: GameHandler, coordinate: GameCoordinate):
                 return False
     return True
 
+def is_valid_turn(gameHandler):
+    return True

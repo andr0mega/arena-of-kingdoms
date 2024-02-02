@@ -52,6 +52,9 @@ GOLDMINE_PRODUCTION = 3
 GOLDMINE_DESCRIPTION = "Building to generate passive income"
 
 KING = json.dumps({
+    "display_name":"King",
+    "name":"king",
+    "cost": 0,
     "health": 50,
     "offense": 3,
     "defense": 3,
