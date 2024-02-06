@@ -15,6 +15,19 @@ HEIGHT = 468
 FPS = 30
 CLOCK = pygame.time.Clock()
 
+#Separated game logic part---------------------------------------------------------
+gameSettings = json.loads(GAME_SETTINGS)
+gameHandler = GameHandler.get_instance()
+gameHandler.create_board(gameSettings["board_width"], gameSettings["board_height"])
+gameHandler.set_config(GameConfig())
+for player in range(gameSettings["player_amount"]):
+    gameHandler.register_player(f"Player-{player}", PLAYER_COLORS[player])
+if(not gameHandler.start_game()):
+    print("something wrong:")
+    print(gameHandler.board)
+    print(gameHandler.game_config)
+#Separated game logic part---------------------------------------------------------
+
 # initialize game
 pygame.init()
 pygame.font.init()
@@ -28,16 +41,7 @@ game = Game(canvas, PLAYER_AMOUNT)
 game.initialize_game()
 game.draw_self()
 mouse = Mouse(game.elements)
-gameHandler = GameHandler.get_instance()
-gameHandler.create_board(WIDTH, HEIGHT)
-gameHandler.set_config(GameConfig())
-for player in range(PLAYER_AMOUNT):
-    gameHandler.register_player(f"Player-{player}", PLAYER_COLORS[player])
-started = gameHandler.start_game()
-if(not started):
-    print("something wrong:")
-    print(gameHandler.board)
-    print(gameHandler.game_config)
+
 
 exit = False
 while not exit:
@@ -55,8 +59,13 @@ while not exit:
                 display_height = HEIGHT
             if display_width < WIDTH:
                 display_width = WIDTH
-            canvas = pygame.display.set_mode(
-                (display_width, display_height), pygame.RESIZABLE)
+            
+            #Linux resize else not working
+            if(pygame.version.vernum >=(2,0)):
+                canvas = pygame.display.get_surface()
+            else:
+                canvas = pygame.display.set_mode(
+                    (display_width, display_height), pygame.RESIZABLE)
 
         canvas.fill(COLOR_WINDOW)
         game.draw_self()

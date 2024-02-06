@@ -4,6 +4,7 @@ from classes.Board import Board
 from classes.Shop import Shop
 from classes.ShopButton import ShopButton
 from classes.Infobox import PlayerInfoboxBorder, PlayerInfobox, TileInfoboxBorder, TileInfobox
+from classes.game.logic.GameHandler import GameHandler
 from const.colors import *
 import const.globals as globals
 
@@ -73,6 +74,7 @@ class Game:
         globals.phase = "income"
 
     def end_phase(self):
+        turn_ended = GameHandler.get_instance().end_turn()
         globals.deployment_lock = False
         if self.player_cycle_index == self.nr_players - 1:
             self.player_cycle_index = 0

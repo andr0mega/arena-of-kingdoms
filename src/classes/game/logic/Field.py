@@ -9,6 +9,9 @@ class Field:
         self.troop = troop
         self.building = building
 
+    def __str__(self) -> str:
+        return f"Field: o({str(self.owner)}), t({str(self.troop)}), b({str(self.building)})"
+        pass
 
     @staticmethod
     def builder():
