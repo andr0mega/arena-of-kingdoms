@@ -38,7 +38,7 @@ class GameHandler:
     @classmethod
     def get_instance(cls):
         if cls._instance == None:
-            print("gamehandler Instanciated")
+            print("GameHandler Instantiated")
             cls._instance = GameHandler()
         return cls._instance
 

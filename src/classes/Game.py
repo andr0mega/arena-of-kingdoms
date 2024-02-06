@@ -59,6 +59,8 @@ class Game:
             self.player_infobox,
             self.tile_infobox_border,
             self.tile_infobox,
+            self.shop.card_layout,
+            *self.shop.shop_cards,
         ]
 
         self.draw_self()

@@ -1,5 +1,7 @@
 import pygame
+from classes.CardLayout import CardLayout
 from classes.ScreenElement import ScreenElement
+from classes.ShopCard import ShopCard
 from const.colors import *
 from const.params import *
 
@@ -7,6 +9,20 @@ from const.params import *
 class Shop(ScreenElement):
     def __init__(self, canvas):
         super().__init__(canvas, COLOR_SHOP)
+
+        self.shop_items = [*json.loads(TROOPS), *json.loads(BUILDINGS)]
+
+        def create_shop_card(card_info):
+            card = ShopCard(
+                canvas,
+                card_info=card_info,
+                shop=self,
+            )
+            return card
+
+        self.shop_cards = [create_shop_card(card_info) for card_info in self.shop_items]
+
+        self.card_layout = CardLayout(canvas, self.shop_cards, self)
 
         self.isopen = False
 
@@ -18,7 +34,6 @@ class Shop(ScreenElement):
         self.top = self.margin_top
 
     def on_click(self):
-        print("shopity shop shop")
         pass
 
     def draw_self(self):
