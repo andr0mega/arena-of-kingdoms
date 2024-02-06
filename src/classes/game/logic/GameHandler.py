@@ -1,10 +1,13 @@
 from enum import Enum
+from typing import Dict
+from classes.game.logic.action.MoveAction import MoveAction
 from classes.game.config.GameConfig import GameConfig
+from classes.game.logic.unit.Troop import Troop
 from const.params import *
 from classes.game.logic.GameBoard import GameBoard
 from classes.game.logic.GameBoard import GameCoordinate
 from classes.game.logic.GamePlayer import GamePlayer
-from classes.game.logic.GameValidator import is_valid_turn, valid_king_position
+from classes.game.logic.GameValidator import is_valid_turn, possible_move_positions, valid_king_position
 from classes.game.logic.action.PlaceAction import PlaceAction
 
 import random
@@ -91,19 +94,6 @@ class GameHandler:
         self.__get_current_action_log().append(PlaceAction(coordinates, king))
         return True
 
-    def __end_phase(self):
-        #Deployment is only part of round 1
-        if(self.phase == GamePhase.DEPLOYMENT):
-            self.phase = GamePhase.GEARUP
-        elif(self.phase == GamePhase.GEARUP):
-            self.phase = GamePhase.COMBAT
-        elif(self.phase == GamePhase.COMBAT):
-            self.phase = GamePhase.INCOME
-        elif(self.phase == GamePhase.INCOME):
-            self.phase = GamePhase.GEARUP
-            self.round += 1
-
-
     #End Turn of the current player. ()
     def end_turn(self) -> bool:
         if is_valid_turn(self):
@@ -115,6 +105,19 @@ class GameHandler:
             pass
         return False
 
+    #returns possible move-fields for the troop on the field (if the troop belongs to the current player)
+    def get_possible_moves(self, coordinates) -> list:
+        print(f"possible moves in handler: {str(coordinates)}")
+        checkField = self.board.fields[coordinates.x][coordinates.y]
+        moveTroop = checkField.troop
+        if(moveTroop != None and moveTroop in  self.get_current_player().units):
+            self.action_log
+            remainingMovement = self.__current_remaning_move_dict()[moveTroop]
+            print(f"possible moves in handler if: {str(coordinates)}, {str(remainingMovement)}")
+            return possible_move_positions(remainingMovement, self.board.fields, coordinates)
+        return []
+
+
     #returns current player or None, if the game hasen't started (TODO: check game status)
     def get_current_player(self) -> GamePlayer:
         return self.players[self.player_order[self.current_player_index]]
@@ -122,6 +125,28 @@ class GameHandler:
 
     def get_game_state(self):
         return self.game_state
+
+    def __current_remaning_move_dict(self) -> Dict:
+        actionLog = self.__get_current_action_log()
+        moveDict = {}
+        for troop in [unit for unit in self.get_current_player().units if type(unit) == Troop]:
+            moveDict[troop] = troop.speed
+        for action in actionLog:
+            if type(action) == MoveAction:
+                moveDict[action.troop] = moveDict[action.troop] - action.distance
+        return moveDict
+
+    def __end_phase(self):
+        #Deployment is only part of round 1
+        if(self.phase == GamePhase.DEPLOYMENT):
+            self.phase = GamePhase.GEARUP
+        elif(self.phase == GamePhase.GEARUP):
+            self.phase = GamePhase.COMBAT
+        elif(self.phase == GamePhase.COMBAT):
+            self.phase = GamePhase.INCOME
+        elif(self.phase == GamePhase.INCOME):
+            self.phase = GamePhase.GEARUP
+            self.round += 1
 
     def __is_game_ready(self) -> bool:
         if(self.game_state != GameState.NONE or len(self.players) < 2):

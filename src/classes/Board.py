@@ -2,7 +2,7 @@ import pygame
 from classes.ScreenElement import ScreenElement
 from classes.Tile import Tile
 from classes.game.logic.GameBoard import GameCoordinate
-from classes.game.logic.GameHandler import GameHandler
+from classes.game.logic.GameHandler import GameHandler, GamePhase
 from const.colors import *
 import const.globals as globals
 
@@ -33,7 +33,13 @@ class Board(ScreenElement):
             self.tile_rows)] for column in range(self.tile_rows)]
 
     def on_tile_click(self, tile):
-        GameHandler.get_instance().place_king(GameCoordinate(tile[0], tile[1]))
+        gameHandler = GameHandler.get_instance()
+        if(gameHandler.phase == GamePhase.DEPLOYMENT):
+            gameHandler.place_king(GameCoordinate(tile[0], tile[1]))
+        elif(gameHandler.phase == GamePhase.COMBAT):
+            moveFields = gameHandler.get_possible_moves(GameCoordinate(tile[0],tile[1]))
+            print(moveFields)
+            
         self.__update_tiles()
         """
         if globals.phase == "deployment" and not globals.deployment_lock:

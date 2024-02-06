@@ -14,4 +14,4 @@ class TroopConfig:
         self.description = description
 
     def create_from_config(self) -> Troop:
-        return Troop(self.name, self.display_name, self.health, self.offense, self.defense, self.upkeep)
+        return Troop(self.name, self.display_name, self.health, self.offense, self.defense,  self.speed, self.upkeep)
