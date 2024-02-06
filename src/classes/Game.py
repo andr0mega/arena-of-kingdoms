@@ -19,7 +19,7 @@ class Game:
         self.player_cycle = []
 
     def initialize_game(self):
-        #Initialize Board and Players
+        # Initialize Board and Players
         self.board = Board(self.canvas)
         for i in range(self.nr_players):
             player = Player(f'Player {i+1}', i, PLAYER_COLORS[i], self.board)
@@ -27,13 +27,13 @@ class Game:
             self.players[player.nr] = player
             self.player_cycle.append(player.nr)
 
-        #Initialize First turn and deployment phase
+        # Initialize First turn and deployment phase
         self.player_cycle_index = 0
         globals.active_player = self.players[self.player_cycle[self.player_cycle_index]]
         globals.turn = 1
         globals.phase = "deployment"
 
-        #Initialize Screen elements
+        # Initialize Screen elements
         tiles = self.board.get_tiles()
 
         self.shop = Shop(self.canvas)
@@ -57,7 +57,6 @@ class Game:
         ]
 
         self.draw_self()
-
 
     def draw_self(self):
         for element in self.elements:
