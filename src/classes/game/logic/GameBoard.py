@@ -10,7 +10,10 @@ class GameBoard:
         self.create_fields(width, height)
 
     def create_fields(self, width, height):
-        self.fields = [[Field.builder().build() for _ in range(width)] for _ in range(height)]
+        self.fields = [
+            [Field.builder().build() for _ in range(width)] for _ in range(height)
+        ]
+
 
 class GameCoordinate:
     def __init__(self, x, y):

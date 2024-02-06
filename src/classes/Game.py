@@ -3,7 +3,12 @@ from classes.Player import Player
 from classes.Board import Board
 from classes.Shop import Shop
 from classes.ShopButton import ShopButton
-from classes.Infobox import PlayerInfoboxBorder, PlayerInfobox, TileInfoboxBorder, TileInfobox
+from classes.Infobox import (
+    PlayerInfoboxBorder,
+    PlayerInfobox,
+    TileInfoboxBorder,
+    TileInfobox,
+)
 from classes.game.logic.GameHandler import GameHandler
 from const.colors import *
 import const.globals as globals
@@ -22,7 +27,7 @@ class Game:
         # Initialize Board and Players
         self.board = Board(self.canvas)
         for i in range(self.nr_players):
-            player = Player(f'Player {i+1}', i, PLAYER_COLORS[i], self.board)
+            player = Player(f"Player {i+1}", i, PLAYER_COLORS[i], self.board)
             player.add_unit(Goldmine("king"))
             self.players[player.nr] = player
             self.player_cycle.append(player.nr)
@@ -53,7 +58,7 @@ class Game:
             self.player_infobox_border,
             self.player_infobox,
             self.tile_infobox_border,
-            self.tile_infobox
+            self.tile_infobox,
         ]
 
         self.draw_self()

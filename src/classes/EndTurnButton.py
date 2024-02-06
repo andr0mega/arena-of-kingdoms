@@ -3,6 +3,7 @@ from classes.ScreenElement import ScreenElement
 from const.colors import *
 from const.params import *
 
+
 class EndTurnButton(ScreenElement):
     def __init__(self, canvas, on_click_callback):
         super().__init__(canvas, COLOR_END_TURN_ICON, hoverable=True)
@@ -31,4 +32,3 @@ class EndTurnButton(ScreenElement):
 
     def on_click(self):
         self.on_click_callback()
-

@@ -13,6 +13,5 @@ class GamePlayer:
     def add_unit(self, unit: Unit):
         self.units.append(unit)
 
-
     def get_units_of_type(self, unit_name: str):
         return [unit for unit in self.units if unit.name == unit_name]

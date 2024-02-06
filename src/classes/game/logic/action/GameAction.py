@@ -1,4 +1,6 @@
 from enum import Enum
+
+
 class GameAction:
     def __init__(self, type):
         self.type = type

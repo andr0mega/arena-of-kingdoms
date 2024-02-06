@@ -10,7 +10,9 @@ import const.globals as globals
 
 
 class Tile(ScreenElement):
-    def __init__(self, canvas, left, top, width, height, tile_pos, on_tile_click, board):
+    def __init__(
+        self, canvas, left, top, width, height, tile_pos, on_tile_click, board
+    ):
         self.left = left + 1
         self.top = top + 1
         self.width = width - 1
@@ -39,7 +41,8 @@ class Tile(ScreenElement):
             tile_center_left = self.left + self.width / 2 - image_width / 2
 
             scaled_image = pygame.transform.smoothscale(
-                get_image_for_troop(self.unit.name), (image_width, image_height))
+                get_image_for_troop(self.unit.name), (image_width, image_height)
+            )
 
             self.canvas.blit(scaled_image, (tile_center_left, tile_center_top))
 

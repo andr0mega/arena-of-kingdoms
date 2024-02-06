@@ -3,7 +3,7 @@ from classes.game.logic.unit.Building import Building
 from classes.game.logic.unit.Troop import Troop
 
 
-class Field:    
+class Field:
     def __init__(self, owner: GamePlayer, troop: Troop, building: Building):
         self.owner = owner
         self.troop = troop
@@ -31,6 +31,6 @@ class Field:
 
         def set_building(self, building: Building):
             self.building = building
-        
+
         def build(self):
             return Field(self.owner, self.troop, self.building)

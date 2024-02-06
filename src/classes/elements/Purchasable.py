@@ -1,6 +1,7 @@
 from const.params import *
 
-class Purchasable():
+
+class Purchasable:
     def __init__(self, name, cost, description, image):
         self.name = name
         self.cost = cost

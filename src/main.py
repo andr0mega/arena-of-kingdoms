@@ -15,18 +15,18 @@ HEIGHT = 468
 FPS = 30
 CLOCK = pygame.time.Clock()
 
-#Separated game logic part---------------------------------------------------------
+# Separated game logic part---------------------------------------------------------
 gameSettings = json.loads(GAME_SETTINGS)
 gameHandler = GameHandler.get_instance()
 gameHandler.create_board(gameSettings["board_width"], gameSettings["board_height"])
 gameHandler.set_config(GameConfig())
 for player in range(gameSettings["player_amount"]):
     gameHandler.register_player(f"Player-{player}", PLAYER_COLORS[player])
-if(not gameHandler.start_game()):
+if not gameHandler.start_game():
     print("something wrong:")
     print(gameHandler.board)
     print(gameHandler.game_config)
-#Separated game logic part---------------------------------------------------------
+# Separated game logic part---------------------------------------------------------
 
 # initialize game
 pygame.init()
@@ -59,13 +59,14 @@ while not exit:
                 display_height = HEIGHT
             if display_width < WIDTH:
                 display_width = WIDTH
-            
-            #Linux resize else not working
-            if(pygame.version.vernum >=(2,0)):
+
+            # Linux resize else not working
+            if pygame.version.vernum >= (2, 0):
                 canvas = pygame.display.get_surface()
             else:
                 canvas = pygame.display.set_mode(
-                    (display_width, display_height), pygame.RESIZABLE)
+                    (display_width, display_height), pygame.RESIZABLE
+                )
 
         canvas.fill(COLOR_WINDOW)
         game.draw_self()

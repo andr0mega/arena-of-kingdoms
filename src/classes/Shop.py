@@ -18,7 +18,7 @@ class Shop(ScreenElement):
         self.top = self.margin_top
 
     def on_click(self):
-        print('shopity shop shop')
+        print("shopity shop shop")
         pass
 
     def draw_self(self):
@@ -28,10 +28,13 @@ class Shop(ScreenElement):
         self.set_dimensions()
 
         shop_background_rect = pygame.rect.Rect(
-            self.margin_left - RECT_BORDER, self.margin_top - RECT_BORDER, self.height + 2 * RECT_BORDER, self.width + 2 * RECT_BORDER)
+            self.margin_left - RECT_BORDER,
+            self.margin_top - RECT_BORDER,
+            self.height + 2 * RECT_BORDER,
+            self.width + 2 * RECT_BORDER,
+        )
 
-        pygame.draw.rect(self.canvas, COLOR_SHOP_BACKGROUND,
-                         shop_background_rect)
+        pygame.draw.rect(self.canvas, COLOR_SHOP_BACKGROUND, shop_background_rect)
 
         super().draw_self()
 

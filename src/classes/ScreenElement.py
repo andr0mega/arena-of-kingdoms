@@ -44,16 +44,10 @@ class ScreenElement:
             color = self.get_hover_color(color)
 
         self.screen_rect = pygame.rect.Rect(
-            self.left,
-            self.top,
-            self.width,
-            self.height
+            self.left, self.top, self.width, self.height
         )
         pygame.draw.rect(
-            self.canvas,
-            color,
-            self.screen_rect,
-            border_radius=self.border_radius
+            self.canvas, color, self.screen_rect, border_radius=self.border_radius
         )
 
     def get_color(self):

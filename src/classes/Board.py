@@ -19,27 +19,31 @@ class Board(ScreenElement):
                 canvas,
                 left=self.margin_left + column * self.tile_width,
                 top=self.margin_top + row * self.tile_width,
-                width=self.tile_width, 
+                width=self.tile_width,
                 height=self.tile_width,
                 on_tile_click=self.on_tile_click,
                 tile_pos=(column, row),
-                board=self
+                board=self,
             )
             return tile
 
         self.is_visible = True
 
-        self.board = [[create_tile(column, row) for row in range(
-            self.tile_rows)] for column in range(self.tile_rows)]
+        self.board = [
+            [create_tile(column, row) for row in range(self.tile_rows)]
+            for column in range(self.tile_rows)
+        ]
 
     def on_tile_click(self, tile):
         gameHandler = GameHandler.get_instance()
-        if(gameHandler.phase == GamePhase.DEPLOYMENT):
+        if gameHandler.phase == GamePhase.DEPLOYMENT:
             gameHandler.place_king(GameCoordinate(tile[0], tile[1]))
-        elif(gameHandler.phase == GamePhase.COMBAT):
-            moveFields = gameHandler.get_possible_moves(GameCoordinate(tile[0],tile[1]))
+        elif gameHandler.phase == GamePhase.COMBAT:
+            moveFields = gameHandler.get_possible_moves(
+                GameCoordinate(tile[0], tile[1])
+            )
             print(moveFields)
-            
+
         self.__update_tiles()
         """
         if globals.phase == "deployment" and not globals.deployment_lock:
@@ -67,7 +71,6 @@ class Board(ScreenElement):
                 guiTile.set_player(gameTile.owner)
                 guiTile.set_unit(gameTile.troop)
                 guiTile.set_building(gameTile.building)
-        
 
     def on_click(self):
         pass
@@ -115,5 +118,6 @@ class Board(ScreenElement):
                 current_tile.adjust_dimensions(
                     self.margin_left + column * self.tile_width,
                     self.margin_top + row * self.tile_height,
-                    self.tile_width, self.tile_height
+                    self.tile_width,
+                    self.tile_height,
                 )
