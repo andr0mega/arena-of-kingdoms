@@ -1,4 +1,3 @@
-from distutils.command.build_clib import build_clib
 import pygame
 from classes.ScreenElement import ScreenElement
 from classes.elements.Building import Building
