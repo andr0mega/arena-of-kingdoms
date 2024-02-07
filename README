@@ -1,4 +1,4 @@
-<h1 align="center">Arena of Kingdoms</h1>
+# Arena of Kingdoms
 
 ## Setup
 
