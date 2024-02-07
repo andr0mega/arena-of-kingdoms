@@ -51,7 +51,7 @@ class PlayerInfobox(ScreenElement):
             f"Current Player:  {self.gameHandler.get_current_player().name}",
             f"Balance:  {self.gameHandler.get_current_player().balance}",
             f"Tiles:  TODO",
-            f"Income:  TODO",
+            f"Income:  TODO"
         ]
 
         line_break = 0
@@ -127,9 +127,7 @@ class TileInfobox(ScreenElement):
             f"Tile owner: {ownerName}",
             f"Tile troop: {troopName}",
             f"Tile troop health: {troopHealth}",
-            f"Tile building: {buildingName}",
-            f"Amet",
-            f"Hello World",
+            f"Tile building: {buildingName}"
         ]
 
         line_break = 0
