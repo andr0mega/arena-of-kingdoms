@@ -1,7 +1,8 @@
+from classes.game.config.UnitConfig import UnitConfig
 from classes.game.logic.unit.Troop import Troop
 
 
-class TroopConfig:
+class TroopConfig(UnitConfig):
     def __init__(
         self,
         display_name: str,
@@ -14,15 +15,12 @@ class TroopConfig:
         upkeep: int,
         description: str,
     ):
-        self.display_name = display_name
-        self.name = name
-        self.cost = cost
+        super().__init__(name, display_name, description, cost)
         self.health = health
         self.offense = offense
         self.defense = defense
         self.speed = speed
         self.upkeep = upkeep
-        self.description = description
 
     def create_from_config(self) -> Troop:
         return Troop(

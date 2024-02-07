@@ -1,12 +1,17 @@
 from enum import Enum
+import re
 from typing import Dict
+from classes.game.config.TroopConfig import TroopConfig
+from classes.game.config.BuildingConfig import BuildingConfig
 from classes.game.logic.action.MoveAction import MoveAction
+from classes.game.logic.action.BuyAction import BuyAction
 from classes.game.config.GameConfig import GameConfig
 from classes.game.logic.unit.Troop import Troop
 from const.params import *
 from classes.game.logic.GameBoard import GameBoard
 from classes.game.logic.GameBoard import GameCoordinate
 from classes.game.logic.GamePlayer import GamePlayer
+from classes.game.config.UnitConfig import UnitConfig
 from classes.game.logic.GameValidator import (
     is_valid_turn,
     possible_move_positions,
@@ -53,7 +58,7 @@ class GameHandler:
         self.round = 0
         # Deployment phase only exists in the 1st round
         self.phase = GamePhase.DEPLOYMENT
-        # action_log contains the actions per round and per player. Key is a tuple of (round, player_index)
+        # action_log contains the actions per round and per player. Key is a tuple of (round, phase, player_number)
         # The value of the log is a list with items of type GameAction
         self.action_log = {}
 
@@ -104,7 +109,6 @@ class GameHandler:
         if len(player.get_units_of_type("king")) > 0:
             return False
         king = self.game_config.get_troop_config("king").create_from_config()
-        king.set_coordinates(coordinates)
         player.add_unit(king)
         self.board.fields[coordinates.x][coordinates.y].troop = king
         for x in range(coordinates.x - 1, coordinates.x + 2):
@@ -147,6 +151,17 @@ class GameHandler:
     def get_game_state(self):
         return self.game_state
 
+    def buy_shop_item(self, unitConfig: UnitConfig):
+        player = self.get_current_player()
+        if(self.phase == GamePhase.GEARUP):
+            if(player.balance >= unitConfig.cost):
+                newUnit = unitConfig.create_from_config()
+                player.add_unit(newUnit)
+                player.reduce_balance(unitConfig.cost)
+                self.__get_current_action_log().append(BuyAction(newUnit))
+                return True
+        return False
+
     def __current_remaning_move_dict(self) -> Dict:
         actionLog = self.__get_current_action_log()
         moveDict = {}
@@ -177,10 +192,10 @@ class GameHandler:
         return self.board != None and self.game_config != None
 
     def __get_player_round_tuple(self) -> tuple:
-        return tuple([self.round, self.current_player_index])
+        return tuple([self.round, self.phase, self.get_current_player().nr])
 
     def __get_current_action_log(self) -> list:
-        logTuple = self.__get_player_round_tuple
+        logTuple = self.__get_player_round_tuple()
         if not logTuple in self.action_log:
             self.action_log[logTuple] = []
         return self.action_log[logTuple]

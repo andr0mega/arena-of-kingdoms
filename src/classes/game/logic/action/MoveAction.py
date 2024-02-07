@@ -8,4 +8,5 @@ class MoveAction(GameAction):
         self.troop = troop
         self.fromField = fromField
         self.toField = toField
+        self.distance = distance
         super().__init__(ActionType.MOVE)
