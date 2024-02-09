@@ -55,9 +55,9 @@ class Tile(ScreenElement):
         if(self.moveable):
             self.draw_indication(self.image_helper.get_image_possible_move(image_width, image_height))
         elif(self.attackable):
-            self.draw_indication(get_image_possible_attack())
+            self.draw_indication(self.image_helper.get_image_possible_attack(image_width, image_height))
         elif(self.placeable):
-            self.draw_indication(get_image_possible_place())
+            self.draw_indication(self.image_helper.get_image_possible_place(image_width, image_height))
 
     def draw_indication(self, scaled_image):
         image_height = int(self.height)
