@@ -128,7 +128,8 @@ class GameHandler:
             pass
         return False
 
-    # returns possible move-fields for the troop on the field (if the troop belongs to the current player)
+    # returns possible move-fields for the troop on the field 
+    # if there is a troop, and it belongs to the current player - None otherwise
     def get_possible_moves(self, coordinates) -> list:
         print(f"possible moves in handler: {str(coordinates)}")
         checkField = self.board.fields[coordinates.x][coordinates.y]
@@ -142,7 +143,7 @@ class GameHandler:
             return possible_move_positions(
                 remainingMovement, self.board.fields, coordinates
             )
-        return []
+        return None
 
     # returns current player or None, if the game hasen't started (TODO: check game status)
     def get_current_player(self) -> GamePlayer:
