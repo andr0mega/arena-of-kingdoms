@@ -1,5 +1,6 @@
 import pygame
 from classes.ScreenElement import ScreenElement
+from classes.events.EventHandler import EventHandler
 from classes.Tile import Tile
 from classes.game.logic.GameBoard import GameCoordinate
 from classes.game.logic.GameHandler import GameHandler, GamePhase
@@ -36,14 +37,20 @@ class Board(ScreenElement):
 
     def on_tile_click(self, tile):
         gameHandler = GameHandler.get_instance()
+        eventHandler = EventHandler.get_instance()
         if gameHandler.phase == GamePhase.DEPLOYMENT:
             gameHandler.place_king(GameCoordinate(tile[0], tile[1]))
         elif gameHandler.phase == GamePhase.COMBAT:
             moveFields = gameHandler.get_possible_moves(
                 GameCoordinate(tile[0], tile[1])
             )
-            print(moveFields)
-
+            if(moveFields != None):
+                for pMove in moveFields:
+                    guiTile = self.board[pMove[0]][pMove[1]]
+                    guiTile.set_movable(True)
+                eventHandler.selected_unit_tile = tuple([tile[0], tile[1]])
+            
+            
         self.__update_tiles()
         """
         if globals.phase == "deployment" and not globals.deployment_lock:

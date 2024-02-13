@@ -5,6 +5,7 @@ from classes.game.logic.GameHandler import GameHandler
 from const.colors import *
 from classes.Game import Game
 from classes.events.Mouse import Mouse
+from classes.events.EventHandler import EventHandler
 from const.sprites import load_sprites
 from const.params import *
 from const.colors import *
@@ -40,17 +41,18 @@ load_sprites()
 game = Game(canvas, PLAYER_AMOUNT)
 game.initialize_game()
 game.draw_self()
-mouse = Mouse(game.elements)
-
+event_handler = EventHandler.get_instance()
+event_handler.reset_handler()
+event_handler.set_elements(game.elements)
 
 exit = False
 while not exit:
     for event in pygame.event.get():
         if event.type == pygame.MOUSEMOTION:
-            mouse.on_mouse_motion()
+            event_handler.on_mouse_motion()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            mouse.on_mouse_buttondown()
+            event_handler.on_mouse_buttondown()
 
         if event.type == pygame.VIDEORESIZE:
             display_height = event.h

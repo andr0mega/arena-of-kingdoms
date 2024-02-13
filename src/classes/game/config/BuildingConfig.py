@@ -1,7 +1,8 @@
+from classes.game.config.UnitConfig import UnitConfig
 from classes.game.logic.unit.Building import Building
 
 
-class BuildingConfig:
+class BuildingConfig(UnitConfig):
     def __init__(
         self,
         display_name: str,
@@ -12,13 +13,10 @@ class BuildingConfig:
         production: int,
         description: str,
     ):
-        self.display_name = display_name
-        self.name = name
-        self.cost = cost
+        super().__init__(name, display_name, description, cost)
         self.health = health
         self.blocking = blocking
         self.production = production
-        self.description = description
 
     def create_from_config(self) -> Building:
         return Building(

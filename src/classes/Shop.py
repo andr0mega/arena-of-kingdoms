@@ -1,4 +1,5 @@
 import pygame
+from classes.game.logic.GameHandler import GameHandler
 from classes.CardLayout import CardLayout
 from classes.ScreenElement import ScreenElement
 from classes.ShopCard import ShopCard
@@ -9,8 +10,10 @@ from const.params import *
 class Shop(ScreenElement):
     def __init__(self, canvas):
         super().__init__(canvas, COLOR_SHOP)
-
-        self.shop_items = [*json.loads(TROOPS), *json.loads(BUILDINGS)]
+        gameHandler = GameHandler.get_instance()
+        self.shop_items = [*(gameHandler.game_config.buildings), *(gameHandler.game_config.troops)]
+        #self.shop_items = [*json.loads(TROOPS), *json.loads(BUILDINGS)]
+        print(f"shop items:{str(self.shop_items)} ")
 
         def create_shop_card(card_info):
             card = ShopCard(

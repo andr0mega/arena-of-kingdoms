@@ -1,6 +1,7 @@
 import math
 import pygame
 from classes.ScreenElement import ScreenElement
+from classes.game.logic.GameHandler import GameHandler
 from const.colors import COLOR_SHOP_CARD, COLOR_SHOP_TEXT
 from const.sprites import SPRITES
 
@@ -25,6 +26,7 @@ class ShopCard(ScreenElement):
         )
         self.card_info = card_info
         self.shop = shop
+        self.game_handler = GameHandler.get_instance()
 
     def set_dimensions(self):
         pass
@@ -41,7 +43,7 @@ class ShopCard(ScreenElement):
         tile_top = self.top + self.height / 10
         tile_center_left = self.left + self.width / 2 - image_width / 2
 
-        image_name = self.card_info["name"]
+        image_name = self.card_info.name
 
         scaled_image = pygame.transform.smoothscale(
             SPRITES[image_name], (image_width, image_height)
@@ -59,7 +61,7 @@ class ShopCard(ScreenElement):
             )
             self.title_font_size = title_font_size
 
-        text = self.card_info["display_name"]
+        text = self.card_info.display_name
 
         render_text = self.title_font.render(text, True, COLOR_SHOP_TEXT)
         text_left = self.left + self.width / 2 - render_text.get_width() / 2
@@ -67,7 +69,7 @@ class ShopCard(ScreenElement):
         self.canvas.blit(render_text, (text_left, text_top))
 
         # Render card description
-        description = self.card_info["description"]
+        description = self.card_info.description
 
         description_1 = ""
         description_2 = ""
@@ -106,5 +108,10 @@ class ShopCard(ScreenElement):
         self.height = height
 
     def on_click(self):
-        print(f"Clicked on {self.card_info['name']}")
+        self.game_handler
+        print(f"Clicked on {self.card_info.name} : {str(type(self.card_info))}")
+        if(self.game_handler.buy_shop_item(self.card_info)):
+            print(f"new player unit stash: {self.game_handler.get_current_player().units}")
+        else:
+            print("Could not buy unit (possible reasons: not enough money / not gearup phase)")
         pass
