@@ -56,7 +56,7 @@ KING = json.dumps(
         "health": 50,
         "offense": 3,
         "defense": 3,
-        "speed": 5,
+        "speed": 1,
         "upkeep": 0,
     }
 )

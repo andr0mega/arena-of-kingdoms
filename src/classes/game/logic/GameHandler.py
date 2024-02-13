@@ -149,6 +149,14 @@ class GameHandler:
     def get_current_player(self) -> GamePlayer:
         return self.players[self.player_order[self.current_player_index]]
 
+    def get_player_fields(self, player):
+        player_fields = []
+        for row in range(len(self.board.fields)):
+            for column in range(len(self.board.fields[row])):
+                if self.board.fields[row][column].owner == player:
+                    player_fields.append(self.board.fields[row][column])
+        return player_fields
+
     def get_game_state(self):
         return self.game_state
 
