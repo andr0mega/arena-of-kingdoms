@@ -110,10 +110,11 @@ class TileInfobox(ScreenElement):
 
     def draw_self(self):
         super().draw_self()
-        ownerName = ""
-        troopName = ""
-        troopHealth = ""
-        buildingName = ""
+        ownerName = getattr(getattr(self.hover_tile, 'owner', None), 'name', "")
+        troopName = getattr(getattr(self.hover_tile, 'troop', None), 'name', "")
+        troopHealth = getattr(getattr(self.hover_tile, 'troop', None), 'health', "")
+        buildingName = getattr(getattr(self.hover_tile, 'building', None), 'name', "")
+        '''
         if self.hover_tile != None:
             if self.hover_tile.owner != None:
                 ownerName = self.hover_tile.owner.name
@@ -122,7 +123,7 @@ class TileInfobox(ScreenElement):
                 troopHealth = self.hover_tile.troop.health
             if self.hover_tile.building != None:
                 buildingName = self.hover_tile.building.name
-
+        '''
         text = [
             f"Tile owner: {ownerName}",
             f"Tile troop: {troopName}",

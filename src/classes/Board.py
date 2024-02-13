@@ -63,7 +63,6 @@ class Board(ScreenElement):
     def __update_tiles(self):
         gameHandler = GameHandler.get_instance()
         gameField = gameHandler.board.fields
-        guiField = self.board
         for x in range(self.tile_columns):
             for y in range(self.tile_rows):
                 guiTile = self.board[x][y]

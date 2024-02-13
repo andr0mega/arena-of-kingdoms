@@ -30,6 +30,7 @@ class Mouse:
 
     def __on_tile_hover(self, tile):
         if self.last_tile != tile:
+            self.last_tile = tile
             for element in self.elements:
                 tile_hover_changed = getattr(element, "on_tile_hover", None)
                 if callable(tile_hover_changed):
