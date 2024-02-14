@@ -12,6 +12,7 @@ class Board(ScreenElement):
     def __init__(self, canvas, width=16):
         self.tile_rows = width
         self.tile_columns = width
+        self.game_handler = GameHandler.get_instance()
 
         super().__init__(canvas, COLOR_BOARD_BACKGROUND)
 
@@ -36,15 +37,15 @@ class Board(ScreenElement):
         ]
 
     def on_tile_click(self, tile):
-        gameHandler = GameHandler.get_instance()
         eventHandler = EventHandler.get_instance()
-        if gameHandler.phase == GamePhase.DEPLOYMENT:
-            gameHandler.place_king(GameCoordinate(tile[0], tile[1]))
-        elif gameHandler.phase == GamePhase.COMBAT:
-            moveFields = gameHandler.get_possible_moves(
+        if self.game_handler.phase == GamePhase.DEPLOYMENT:
+            self.game_handler.place_king(GameCoordinate(tile[0], tile[1]))
+        elif self.game_handler.phase == GamePhase.COMBAT:
+            moveFields = self.game_handler.get_possible_moves(
                 GameCoordinate(tile[0], tile[1])
             )
             if(moveFields != None):
+                self.on_selected_tile_clear()
                 for pMove in moveFields:
                     guiTile = self.board[pMove[0]][pMove[1]]
                     guiTile.set_movable(True)
@@ -66,11 +67,14 @@ class Board(ScreenElement):
                 self.board[tile[0]][tile[1]].set_unit(globals.active_player.units["king"])
                 globals.deployment_lock = True
         """
+    def on_selected_tile_clear(self):
+        for row in self.board.fields:
+            for tile in row:
 
+        pass
     def __update_tiles(self):
         gameHandler = GameHandler.get_instance()
         gameField = gameHandler.board.fields
-        guiField = self.board
         for x in range(self.tile_columns):
             for y in range(self.tile_rows):
                 guiTile = self.board[x][y]

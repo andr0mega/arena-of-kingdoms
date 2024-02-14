@@ -81,7 +81,7 @@ class Game:
 
     def end_phase(self):
         turn_ended = GameHandler.get_instance().end_turn()
-        globals.deployment_lock = False
+        """globals.deployment_lock = False
         if self.player_cycle_index == self.nr_players - 1:
             self.player_cycle_index = 0
         else:
@@ -97,4 +97,4 @@ class Game:
             elif globals.phase == "combat":
                 self.start_income_phase()
             elif globals.phase == "income":
-                self.start_gearup_phase()
+                self.start_gearup_phase()"""
