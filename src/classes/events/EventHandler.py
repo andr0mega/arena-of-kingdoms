@@ -35,6 +35,7 @@ class EventHandler:
 
     def on_mouse_motion(self):
         pos = pygame.mouse.get_pos()
+        self.__off_tile_hover()
 
         for element in self.elements:
             element.on_hover(False)
@@ -44,6 +45,7 @@ class EventHandler:
                     element.on_hover(True)
                     if isinstance(element, Tile):
                         self.__on_tile_hover(element)
+                        
 
     def on_mouse_buttondown(self):
         pos = pygame.mouse.get_pos()
@@ -69,4 +71,9 @@ class EventHandler:
                 tile_hover_changed = getattr(element, "on_tile_hover", None)
                 if callable(tile_hover_changed):
                     tile_hover_changed(tile.tile_pos)
-            pass
+
+    def __off_tile_hover(self):
+        for element in self.elements:
+            tile_hover_changed = getattr(element, "off_tile_hover", None)
+            if callable(tile_hover_changed):
+                tile_hover_changed()

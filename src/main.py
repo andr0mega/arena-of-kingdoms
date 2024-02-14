@@ -4,7 +4,6 @@ from classes.game.config.GameConfig import GameConfig
 from classes.game.logic.GameHandler import GameHandler
 from const.colors import *
 from classes.Game import Game
-from classes.events.Mouse import Mouse
 from classes.events.EventHandler import EventHandler
 from const.sprites import load_sprites
 from const.params import *

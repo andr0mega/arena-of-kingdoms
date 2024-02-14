@@ -96,8 +96,8 @@ class Tile(ScreenElement):
     def set_unit(self, unit: Troop):
         self.unit = unit
 
-    def on_click(self):
-        self.on_tile_click(self.tile_pos)
-
     def set_building(self, building):
         self.building = building
+
+    def on_click(self):
+        self.on_tile_click(self.tile_pos)
