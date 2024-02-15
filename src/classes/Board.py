@@ -13,6 +13,7 @@ class Board(ScreenElement):
         self.tile_rows = width
         self.tile_columns = width
         self.game_handler = GameHandler.get_instance()
+        self.event_handler = EventHandler.get_instance()
 
         super().__init__(canvas, COLOR_BOARD_BACKGROUND)
 
@@ -35,23 +36,25 @@ class Board(ScreenElement):
             [create_tile(column, row) for row in range(self.tile_rows)]
             for column in range(self.tile_rows)
         ]
+        self.event_handler.subscribe_clear_selected_tile(self)
 
     def on_tile_click(self, tile):
-        eventHandler = EventHandler.get_instance()
         if self.game_handler.phase == GamePhase.DEPLOYMENT:
             self.game_handler.place_king(GameCoordinate(tile[0], tile[1]))
         elif self.game_handler.phase == GamePhase.COMBAT:
             moveFields = self.game_handler.get_possible_moves(
                 GameCoordinate(tile[0], tile[1])
             )
-            if(moveFields != None):
-                self.on_selected_tile_clear()
+            if moveFields != None:
+                self.event_handler.clear_selected_tile()
                 for pMove in moveFields:
                     guiTile = self.board[pMove[0]][pMove[1]]
                     guiTile.set_movable(True)
-                eventHandler.selected_unit_tile = tuple([tile[0], tile[1]])
-            
-            
+                self.event_handler.selected_unit_tile = tuple([tile[0], tile[1]])
+            elif self.event_handler.selected_unit_tile != None:
+                # field is selected, check if move / attack field is selected, or clear moveable field
+                self.__combat_action_on_tile(tuple([tile[0], tile[1]]))
+
         self.__update_tiles()
         """
         if globals.phase == "deployment" and not globals.deployment_lock:
@@ -67,11 +70,34 @@ class Board(ScreenElement):
                 self.board[tile[0]][tile[1]].set_unit(globals.active_player.units["king"])
                 globals.deployment_lock = True
         """
-    def on_selected_tile_clear(self):
-        for row in self.board.fields:
-            for tile in row:
 
-        pass
+    def __combat_action_on_tile(self, action_tile):
+        # field is selected, check if move / attack field is selected, or clear moveable field
+        selectedUnitTile = self.event_handler.selected_unit_tile
+        if action_tile in self.game_handler.get_possible_moves(
+            GameCoordinate(selectedUnitTile[0], selectedUnitTile[1])
+        ):
+            self.game_handler.move_unit(
+                GameCoordinate(selectedUnitTile[0], selectedUnitTile[1]),
+                GameCoordinate(action_tile[0], action_tile[1]),
+            )
+            self.event_handler.clear_selected_tile()
+        elif (action_tile in self.game_handler.get_possible_attacks()):
+            self.game_handler.attack_unit(
+                GameCoordinate(selectedUnitTile[0], selectedUnitTile[1]),
+                GameCoordinate(action_tile[0], action_tile[1]),
+            )
+            self.event_handler.clear_selected_tile()
+        self.__update_tiles()
+
+    def on_selected_tile_clear(self):
+        for row in self.board:
+            for tile in row:
+                tile.set_attackable(False)
+                tile.set_placeable(False)
+                tile.set_movable(False)
+                pass
+
     def __update_tiles(self):
         gameHandler = GameHandler.get_instance()
         gameField = gameHandler.board.fields

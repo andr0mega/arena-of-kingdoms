@@ -41,7 +41,6 @@ game = Game(canvas, PLAYER_AMOUNT)
 game.initialize_game()
 game.draw_self()
 event_handler = EventHandler.get_instance()
-event_handler.reset_handler()
 event_handler.set_elements(game.elements)
 
 exit = False

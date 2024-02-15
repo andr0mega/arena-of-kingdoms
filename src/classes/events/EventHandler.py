@@ -25,6 +25,11 @@ class EventHandler:
     def subscribe_clear_selected_tile(self, subscriber):
         self.on_clear_selected_tile_subscriber.append(subscriber)
 
+    
+    def clear_selected_tile(self):
+        self.selected_unit_tile = None
+        self.__notify_clear_selected_tile()
+
     def __notify_clear_selected_tile(self):
         for subscriber in self.on_clear_selected_tile_subscriber:
             try:
@@ -57,13 +62,12 @@ class EventHandler:
                     click_elements.append(element)
                     tile_clicked = tile_clicked or isinstance(element, Tile)
         if(not tile_clicked and self.selected_unit_tile != None):
-            self.selected_unit_tile = None
-            self.__notify_clear_selected_tile()
+            self.clear_selected_tile()
         for element in click_elements:
             element.on_click()
     
     def set_unit_tile(self, tile):
-        self.selected_unit_tile
+        self.selected_unit_tile = tile
 
     def __on_tile_hover(self, tile):
         if self.last_tile != tile:

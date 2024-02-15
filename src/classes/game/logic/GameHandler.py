@@ -93,6 +93,8 @@ class GameHandler:
         self.game_state = GameState.RUNNING
         return True
 
+    # ---------------------------- DEPLOYMENT ACTIONS START -----------------------------
+
     # 5. Place King (Special placement, other troops can only be placed in fields already occupied by player)
     def place_king(self, coordinates: GameCoordinate) -> bool:
         # Can place king, if it is the first round and the game is running
@@ -116,6 +118,46 @@ class GameHandler:
                 self.board.fields[x][y].owner = player
         self.__get_current_action_log().append(PlaceAction(coordinates, king))
         return True
+    # ---------------------------- DEPLOYMENT ACTIONS END ------------------------------
+
+    # ---------------------------- GEARUP ACTIONS START ------------------------------
+    def buy_shop_item(self, unitConfig: UnitConfig):
+        player = self.get_current_player()
+        if(self.phase == GamePhase.GEARUP):
+            if(player.balance >= unitConfig.cost):
+                newUnit = unitConfig.create_from_config()
+                player.add_unit(newUnit)
+                player.reduce_balance(unitConfig.cost)
+                self.__get_current_action_log().append(BuyAction(newUnit))
+                return True
+        return False
+    
+    # ---------------------------- GEARUP ACTIONS END ------------------------------
+
+    # ------------------------------- COMBAT ACTIONS START -----------------------------
+
+    def move_unit(self, coordinates_from:GameCoordinate, coordinates_to:GameCoordinate):
+        
+        moveToTuple = tuple([coordinates_to.x,coordinates_to.y])
+        possible_fields = self.get_possible_moves(coordinates_from)
+        if(possible_fields != None and moveToTuple in possible_fields):
+            moveFieldFrom = self.board.fields[coordinates_from.x][coordinates_from.y]
+            moveFieldTo = self.board.fields[coordinates_to.x][coordinates_to.y]
+            if(moveFieldFrom.troop != None and moveFieldFrom.troop in self.get_current_player().units):
+                moveAction = MoveAction(moveFieldFrom.troop, coordinates_from, coordinates_to, GameBoard.calculate_distance(coordinates_from, coordinates_to))
+                moveFieldTo.troop = moveFieldFrom.troop
+                moveFieldFrom.troop = None
+                #if troop is claiming field (maybe some will not claim fields)
+                moveFieldTo.owner = self.get_current_player()
+                self.__get_current_action_log().append(moveAction)
+                return True
+        return False
+
+    def attack_unit(self, coordinates_from, coordinates_to):
+
+        pass
+
+    # ------------------------------- COMBAT ACTIONS END -------------------------------
 
     # End Turn of the current player. ()
     def end_turn(self) -> bool:
@@ -131,18 +173,26 @@ class GameHandler:
     # returns possible move-fields for the troop on the field 
     # if there is a troop, and it belongs to the current player - None otherwise
     def get_possible_moves(self, coordinates) -> list:
-        print(f"possible moves in handler: {str(coordinates)}")
         checkField = self.board.fields[coordinates.x][coordinates.y]
         moveTroop = checkField.troop
         if moveTroop != None and moveTroop in self.get_current_player().units:
             self.action_log
             remainingMovement = self.__current_remaning_move_dict()[moveTroop]
-            print(
-                f"possible moves in handler if: {str(coordinates)}, {str(remainingMovement)}"
-            )
             return possible_move_positions(
                 remainingMovement, self.board.fields, coordinates
             )
+        return None
+
+
+    # returns possible attack-fields for the troop on the field 
+    # if there is a troop, and it belongs to the current player - None otherwise
+    def get_possible_attacks(self, coordinates) -> list:
+        print(f"possible attacks in handler: {str(coordinates)}")
+        checkField = self.board.fields[coordinates.x][coordinates.y]
+        moveTroop = checkField.troop
+        if moveTroop != None and moveTroop in self.get_current_player().units:
+            #TODO: get attackable tiles
+            return []
         return None
 
     # returns current player or None, if the game hasen't started (TODO: check game status)
@@ -159,17 +209,6 @@ class GameHandler:
 
     def get_game_state(self):
         return self.game_state
-
-    def buy_shop_item(self, unitConfig: UnitConfig):
-        player = self.get_current_player()
-        if(self.phase == GamePhase.GEARUP):
-            if(player.balance >= unitConfig.cost):
-                newUnit = unitConfig.create_from_config()
-                player.add_unit(newUnit)
-                player.reduce_balance(unitConfig.cost)
-                self.__get_current_action_log().append(BuyAction(newUnit))
-                return True
-        return False
 
     def __current_remaning_move_dict(self) -> Dict:
         actionLog = self.__get_current_action_log()

@@ -13,6 +13,11 @@ class GameBoard:
         self.fields = [
             [Field.builder().build() for _ in range(width)] for _ in range(height)
         ]
+    
+    @classmethod
+    def calculate_distance(cls, coordinate_from, coordinate_to):
+        #distance is equal to the max diff in coordinates (as diagonal movement is also just 1 distance)
+        return max(abs(coordinate_to.y - coordinate_from.y), abs(coordinate_to.x - coordinate_from.x))
 
 
 class GameCoordinate:
