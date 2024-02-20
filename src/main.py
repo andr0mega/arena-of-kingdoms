@@ -37,7 +37,7 @@ canvas.fill(COLOR_WINDOW)
 
 load_sprites()
 
-game = Game(canvas, PLAYER_AMOUNT)
+game = Game(canvas)
 game.initialize_game()
 game.draw_self()
 event_handler = EventHandler.get_instance()

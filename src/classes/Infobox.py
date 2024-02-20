@@ -3,7 +3,6 @@ from classes.ScreenElement import ScreenElement
 from classes.game.logic.GameHandler import GameHandler
 from const.colors import *
 from const.params import *
-import const.globals as globals
 
 
 class PlayerInfoboxBorder(ScreenElement):
@@ -26,10 +25,9 @@ class PlayerInfoboxBorder(ScreenElement):
 
 
 class PlayerInfobox(ScreenElement):
-    def __init__(self, canvas, players):
+    def __init__(self, canvas):
         super().__init__(canvas, COLOR_PLAYER_INFOBOX, hoverable=False)
         self.gameHandler = GameHandler.get_instance()
-        self.players = players
 
         self.font = pygame.font.SysFont("Rockwell", 18)
 

@@ -5,11 +5,10 @@ from classes.Tile import Tile
 from classes.game.logic.GameBoard import GameCoordinate
 from classes.game.logic.GameHandler import GameHandler, GamePhase
 from const.colors import *
-import const.globals as globals
 
 
 class Board(ScreenElement):
-    def __init__(self, canvas, width=16):
+    def __init__(self, canvas, width):
         self.tile_rows = width
         self.tile_columns = width
         self.game_handler = GameHandler.get_instance()
@@ -56,20 +55,6 @@ class Board(ScreenElement):
                 self.__combat_action_on_tile(tuple([tile[0], tile[1]]))
 
         self.__update_tiles()
-        """
-        if globals.phase == "deployment" and not globals.deployment_lock:
-            tiles_to_deploy = []
-            for i in range(max(tile[0] - 1, 0), min(tile[0] + 2, self.tile_columns)):
-                for j in range(max(tile[1] - 1, 0), min(tile[1] + 2, self.tile_columns)):
-                    if self.board[i][j].player == None:
-                        tiles_to_deploy.append(self.board[i][j])
-                    
-            if len(tiles_to_deploy) == 9:
-                for tile_deploy in tiles_to_deploy:
-                    tile_deploy.set_player(globals.active_player)
-                self.board[tile[0]][tile[1]].set_unit(globals.active_player.units["king"])
-                globals.deployment_lock = True
-        """
 
     def __combat_action_on_tile(self, action_tile):
         # field is selected, check if move / attack field is selected, or clear moveable field

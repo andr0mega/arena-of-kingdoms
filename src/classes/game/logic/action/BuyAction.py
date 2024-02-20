@@ -1,6 +1,6 @@
 from classes.game.logic.action.GameAction import ActionType
 from classes.game.logic.action.GameAction import GameAction
-from classes.elements.Unit import Unit
+from classes.game.logic.unit import Unit
 
 
 class BuyAction(GameAction):
