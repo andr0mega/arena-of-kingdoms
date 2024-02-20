@@ -11,6 +11,7 @@ class Troop(Unit):
         defense: int,
         speed: int,
         upkeep: int,
+        attack_range: int,
     ):
         self.display_name = display_name
         self.name = name
@@ -19,4 +20,5 @@ class Troop(Unit):
         self.defense = defense
         self.speed = speed
         self.upkeep = upkeep
+        self.attack_range = attack_range
         super().__init__(name)

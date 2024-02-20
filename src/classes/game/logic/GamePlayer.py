@@ -9,9 +9,13 @@ class GamePlayer:
         self.color = color
         self.balance = startBalance
         self.units = []
+        self.inventory = []
 
-    def add_unit(self, unit: Unit):
+    def add_unit(self, unit: Unit, add_to_inventory: bool = True):
         self.units.append(unit)
+        if add_to_inventory:
+            self.inventory.append(unit)
+    
     
     def reduce_balance(self, reduction_value: int):
         if(self.balance - reduction_value < 0):

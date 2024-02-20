@@ -34,6 +34,7 @@ KING = json.dumps(
         "defense": 3,
         "speed": 1,
         "upkeep": 0,
+        "attack_range": 1,
     }
 )
 
@@ -48,7 +49,9 @@ TROOPS = json.dumps(
             "defense": 5,
             "speed": 1,
             "upkeep": 3,
+            "attack_range": 1,
             "description": "Slow but powerful offensive unit",
+            
         }
     ]
 )

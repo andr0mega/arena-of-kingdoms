@@ -20,6 +20,7 @@ class GameConfig:
             king_param["defense"],
             king_param["speed"],
             king_param["upkeep"],
+            king_param["attack_range"],
             "",
         )
         self.troops = [
@@ -32,6 +33,7 @@ class GameConfig:
                 troop["defense"],
                 troop["speed"],
                 troop["upkeep"],
+                troop["attack_range"],
                 troop["description"],
             )
             for troop in troops

@@ -13,7 +13,9 @@ class TroopConfig(UnitConfig):
         defense: int,
         speed: int,
         upkeep: int,
+        attack_range: int,
         description: str,
+        
     ):
         super().__init__(name, display_name, description, cost)
         self.health = health
@@ -21,6 +23,8 @@ class TroopConfig(UnitConfig):
         self.defense = defense
         self.speed = speed
         self.upkeep = upkeep
+        self.attack_range = attack_range
+        
 
     def create_from_config(self) -> Troop:
         return Troop(
@@ -31,4 +35,5 @@ class TroopConfig(UnitConfig):
             self.defense,
             self.speed,
             self.upkeep,
+            self.attack_range,
         )
