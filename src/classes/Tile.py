@@ -1,12 +1,10 @@
 import pygame
 from classes.ScreenElement import ScreenElement
-from classes.elements.Building import Building
 from classes.game.logic.GamePlayer import GamePlayer
 from classes.game.logic.unit.Troop import Troop
 from const.colors import *
 from classes.ImageHelper import get_image_for_troop
 from classes.ImageHelper import ImageHelper
-import const.globals as globals
 
 
 class Tile(ScreenElement):
