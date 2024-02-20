@@ -129,8 +129,8 @@ class TileInfobox(ScreenElement):
         troopDefense = getattr(getattr(self.hover_tile, 'troop', None), 'defense', "")
         troopSpeed = getattr(getattr(self.hover_tile, 'troop', None), 'speed', "")
         troopUpkeep = getattr(getattr(self.hover_tile, 'troop', None), 'upkeep', "")
-        #buildingName = getattr(getattr(self.hover_tile, 'building', None), 'name', "")
-        #buildingHealth = getattr(getattr(self.hover_tile, 'building', None), 'health', "")
+        buildingName = getattr(getattr(self.hover_tile, 'building', None), 'name', "")
+        buildingHealth = getattr(getattr(self.hover_tile, 'building', None), 'health', "")
 
         text = []
         if ownerName:
@@ -148,9 +148,9 @@ class TileInfobox(ScreenElement):
         if troopUpkeep:
             text.append(f"Unit Upkeep:  {troopUpkeep}")
         #if buildingName:
-        #    text.append(f"Building name: {buildingName}")
+        #text.append(f"Building name: {buildingName}")
         #if buildingHealth:
-        #    text.append(f"Building health: {buildingHealth}")
+        #text.append(f"Building health: {buildingHealth}")
 
 
         line_break = 0
