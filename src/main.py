@@ -10,8 +10,8 @@ from const.params import *
 from const.colors import *
 
 # params
-WIDTH = 680
-HEIGHT = 468
+WIDTH = 848
+HEIGHT = 480
 FPS = 30
 CLOCK = pygame.time.Clock()
 

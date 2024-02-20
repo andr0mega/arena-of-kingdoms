@@ -10,7 +10,7 @@ from classes.Infobox import (
 )
 from classes.game.logic.GameHandler import GameHandler
 from const.colors import *
-
+from classes.Inventory import Inventory
 
 class Game:
     def __init__(self, canvas):
@@ -30,6 +30,7 @@ class Game:
         self.player_infobox = PlayerInfobox(self.canvas)
         self.tile_infobox_border = TileInfoboxBorder(self.canvas)
         self.tile_infobox = TileInfobox(self.canvas)
+        self.inventory = Inventory(self.canvas)
 
         self.elements = [
             self.board,
@@ -43,6 +44,7 @@ class Game:
             self.tile_infobox,
             self.shop.card_layout,
             *self.shop.shop_cards,
+            self.inventory,
         ]
 
         self.draw_self()
