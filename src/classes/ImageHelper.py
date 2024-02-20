@@ -16,7 +16,7 @@ class ImageHelper:
     @classmethod
     def get_instance(cls):
         if cls._instance == None:
-            print("EventHandler Instantiated")
+            print("ImageHelper Instantiated")
             cls._instance = ImageHelper()
         return cls._instance
     

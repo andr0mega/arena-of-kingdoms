@@ -6,3 +6,7 @@ class Building(Unit):
         self, name: str, display_name: str, health: int, blocking: bool, production: int
     ):
         self.name = name
+        self.display_name = display_name
+        self.health = health
+        self.blocking = blocking
+        self.production = production

@@ -7,6 +7,7 @@ from classes.game.logic.action.MoveAction import MoveAction
 from classes.game.logic.action.BuyAction import BuyAction
 from classes.game.config.GameConfig import GameConfig
 from classes.game.logic.unit.Troop import Troop
+from classes.game.logic.unit.Building import Building
 from const.params import *
 from classes.game.logic.GameBoard import GameBoard
 from classes.game.logic.GameBoard import GameCoordinate
@@ -18,7 +19,7 @@ from classes.game.logic.GameValidator import (
     valid_king_position,
 )
 from classes.game.logic.action.PlaceAction import PlaceAction
-
+from classes.game.logic.unit.Unit import Unit
 import random
 
 #!!!IMPORTANT Singleton GameHandler
@@ -111,7 +112,7 @@ class GameHandler:
         if len(player.get_units_of_type("king")) > 0:
             return False
         king = self.game_config.get_troop_config("king").create_from_config()
-        player.add_unit(king)
+        player.add_unit(king, False)
         self.board.fields[coordinates.x][coordinates.y].troop = king
         for x in range(coordinates.x - 1, coordinates.x + 2):
             for y in range(coordinates.y - 1, coordinates.y + 2):
@@ -131,13 +132,28 @@ class GameHandler:
                 self.__get_current_action_log().append(BuyAction(newUnit))
                 return True
         return False
-    
+
+    def place_unit(self, unit: Unit, coordinates: GameCoordinate) -> bool:
+        field = self.board.fields[coordinates.x][coordinates.y]
+        if not unit in self.get_current_player().inventory:
+            return False
+        if not field.owner == self.get_current_player() and  field.troop == None and (field.building == None or not field.building.blocking):
+            return False
+
+        placeAction = PlaceAction(coordinates, unit)
+        self.get_current_player().inventory.remove(unit)
+        if(isinstance(unit, Troop)):
+            field.troop = unit
+        elif(isinstance(unit, Building)):
+            field.building = unit
+        self.__get_current_action_log().append(placeAction)
+        return True
+
     # ---------------------------- GEARUP ACTIONS END ------------------------------
 
     # ------------------------------- COMBAT ACTIONS START -----------------------------
 
     def move_unit(self, coordinates_from:GameCoordinate, coordinates_to:GameCoordinate):
-        
         moveToTuple = tuple([coordinates_to.x,coordinates_to.y])
         possible_fields = self.get_possible_moves(coordinates_from)
         if(possible_fields != None and moveToTuple in possible_fields):
