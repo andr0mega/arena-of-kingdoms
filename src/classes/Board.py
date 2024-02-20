@@ -82,7 +82,9 @@ class Board(ScreenElement):
                 GameCoordinate(action_tile[0], action_tile[1]),
             )
             self.event_handler.clear_selected_tile()
-        elif (action_tile in self.game_handler.get_possible_attacks()):
+        elif (action_tile in self.game_handler.get_possible_attacks(
+            GameCoordinate(selectedUnitTile[0], selectedUnitTile[1])
+        )):
             self.game_handler.attack_unit(
                 GameCoordinate(selectedUnitTile[0], selectedUnitTile[1]),
                 GameCoordinate(action_tile[0], action_tile[1]),
