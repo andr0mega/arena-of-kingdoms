@@ -2,13 +2,16 @@ import math
 from classes.ScreenElement import ScreenElement
 from const.colors import COLOR_WINDOW
 from const.params import MARGIN_TOP, MARGIN_BOTTOM, MARGIN_RIGHT
+from classes.game.logic.GameHandler import GameHandler
+from classes.InventoryCard import InventoryCard
 
 
 class Inventory(ScreenElement):
     def __init__(self, canvas):
-        super().__init__(canvas, (102, 102, 102))
+        self.cards = None
+        super().__init__(canvas, COLOR_WINDOW)
 
-        #self.cards = cards
+        self.game_handler = GameHandler.get_instance()
 
         self.rows = 5
 
@@ -27,19 +30,23 @@ class Inventory(ScreenElement):
     def draw_self(self):
         super().draw_self()
 
-        # for i, card in enumerate(self.cards):
+        if not len(self.game_handler.get_current_player().inventory):
+            return
+        
+        self.cards = [InventoryCard(self.canvas, card_info) for card_info in self.game_handler.get_current_player().inventory]
 
-        #     card_left = (
-        #         self.margin_left + (i % self.columns) * self.width / self.columns
-        #     )
-        #     card_top = self.margin_top + i // (self.rows + 1) * self.height / self.rows
-        #     card.adjust_dimensions(
-        #         card_left + self.card_margin,
-        #         card_top + self.card_margin,
-        #         (self.width / self.columns) - 2 * self.card_margin,
-        #         (self.height / self.rows) - 2 * self.card_margin,
-        #     )
-        #     card.draw_self()
+        card_width = self.width
+        card_height = self.width / 3 * 4
+
+        for card in self.cards:
+            card.adjust_dimensions(
+                self.left,
+                self.top + self.height - card_height,
+                card_width,
+                card_height
+            )
+
+            card.draw_self()
 
     def on_click(self):
         pass

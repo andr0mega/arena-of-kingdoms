@@ -43,6 +43,8 @@ class EventHandler:
         self.__off_tile_hover()
 
         for element in self.elements:
+            if not element:
+                continue
             element.on_hover(False)
 
             if hasattr(element, "screen_rect") and element.screen_rect is not None:

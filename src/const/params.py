@@ -21,7 +21,7 @@ SPACING_INFO_BOXES_HEIGHT = 20
 
 
 GAME_SETTINGS = json.dumps(
-    {"player_amount": 4, "start_balance": 20, "board_width": 16, "board_height": 16}
+    {"player_amount": 2, "start_balance": 200, "board_width": 16, "board_height": 16}
 )
 
 KING = json.dumps(

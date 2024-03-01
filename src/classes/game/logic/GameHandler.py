@@ -126,11 +126,12 @@ class GameHandler:
         player = self.get_current_player()
         if(self.phase == GamePhase.GEARUP):
             if(player.balance >= unitConfig.cost):
-                newUnit = unitConfig.create_from_config()
-                player.add_unit(newUnit)
-                player.reduce_balance(unitConfig.cost)
-                self.__get_current_action_log().append(BuyAction(newUnit))
-                return True
+                if(len(player.inventory) < 7):
+                    newUnit = unitConfig.create_from_config()
+                    player.add_unit(newUnit)
+                    player.reduce_balance(unitConfig.cost)
+                    self.__get_current_action_log().append(BuyAction(newUnit))
+                    return True
         return False
 
     def place_unit(self, unit: Unit, coordinates: GameCoordinate) -> bool:

@@ -45,12 +45,15 @@ class Game:
             self.shop.card_layout,
             *self.shop.shop_cards,
             self.inventory,
+            self.inventory.cards
         ]
 
         self.draw_self()
 
     def draw_self(self):
         for element in self.elements:
+            if not element:
+                continue
             element.screen_rect = None
             element.draw_self()
 

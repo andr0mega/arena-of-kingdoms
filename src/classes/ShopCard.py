@@ -40,8 +40,8 @@ class ShopCard(ScreenElement):
         # Render card image
         image_width = int(self.width * 0.7)
         image_height = image_width
-        tile_top = self.top + (self.height / 10) * 1.5
-        tile_center_left = self.left + self.width / 2 - image_width / 2
+        image_top = self.top + (self.height / 10) * 1.5
+        image_center_left = self.left + self.width / 2 - image_width / 2
 
         image_name = self.card_info.name
 
@@ -49,7 +49,7 @@ class ShopCard(ScreenElement):
             SPRITES[image_name], (image_width, image_height)
         )
 
-        self.canvas.blit(scaled_image, (tile_center_left, tile_top))
+        self.canvas.blit(scaled_image, (image_center_left, image_top))
 
         # Render card title
         title_font_size = math.floor(self.width / 8)
@@ -156,7 +156,6 @@ class ShopCard(ScreenElement):
         self.height = height
 
     def on_click(self):
-        self.game_handler
         print(f"Clicked on {self.card_info.name} : {str(type(self.card_info))}")
         if self.game_handler.buy_shop_item(self.card_info):
             print(
@@ -164,6 +163,6 @@ class ShopCard(ScreenElement):
             )
         else:
             print(
-                "Could not buy unit (possible reasons: not enough money / not gearup phase)"
+                "Could not buy unit (possible reasons: not enough money / not gearup phase / max inventory size reached)"
             )
         pass
