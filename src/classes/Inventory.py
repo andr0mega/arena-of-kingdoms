@@ -24,10 +24,11 @@ class Inventory(ScreenElement):
 
     def on_inventory_change(self, event):
         if event is EVENTS["INVENTORY_CHANGE"]:
-            print('le inventory change')
             self.cards = [
-                InventoryCard(self.canvas, card_info)
-                for card_info in self.game_handler.get_current_player().inventory
+                InventoryCard(self.canvas, card_info, index)
+                for index, card_info in enumerate(
+                    self.game_handler.get_current_player().inventory
+                )
             ]
 
     def set_dimensions(self):
@@ -53,8 +54,6 @@ class Inventory(ScreenElement):
                 card_width,
                 card_height,
             )
-
-            card.draw_self()
 
     def on_click(self):
         pass

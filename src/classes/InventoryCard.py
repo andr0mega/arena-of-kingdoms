@@ -7,11 +7,12 @@ from const.sprites import SPRITES
 
 
 class InventoryCard(ScreenElement):
-    def __init__(self, canvas, card_info):
+    def __init__(self, canvas, card_info, card_index):
         self.left = 0
         self.top = 0
         self.width = 0
         self.height = 0
+        self.card_index = card_index
 
         super().__init__(canvas, COLOR_CARD, hoverable=True)
 

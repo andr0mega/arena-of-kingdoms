@@ -42,6 +42,8 @@ class EventHandler:
         pos = pygame.mouse.get_pos()
         self.__off_tile_hover()
 
+        max_card_element = None
+
         for element in self.elements:
             if not element:
                 continue
@@ -49,6 +51,16 @@ class EventHandler:
 
             if hasattr(element, "screen_rect") and element.screen_rect is not None:
                 if element.screen_rect.collidepoint(pos):
+                    
+                    if hasattr(element, "card_index"):
+                        if max_card_element is None:
+                            max_card_element = element
+                        elif max_card_element.card_index < element.card_index:
+                            max_card_element.on_hover(False)
+                            max_card_element = element
+                        elif max_card_element.card_index > element.card_index:
+                            continue
+
                     element.on_hover(True)
                     if isinstance(element, Tile):
                         self.__on_tile_hover(element)
