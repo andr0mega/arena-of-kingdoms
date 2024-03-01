@@ -41,11 +41,11 @@ game = Game(canvas)
 game.initialize_game()
 game.draw_self()
 event_handler = EventHandler.get_instance()
-event_handler.set_elements(game.elements)
 
 exit = False
 while not exit:
     for event in pygame.event.get():
+        event_handler.set_elements(game.elements)
         if event.type == pygame.MOUSEMOTION:
             event_handler.on_mouse_motion()
 

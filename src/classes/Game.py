@@ -3,10 +3,8 @@ from classes.Board import Board
 from classes.Shop import Shop
 from classes.ShopButton import ShopButton
 from classes.Infobox import (
-    PlayerInfoboxBorder,
     PlayerInfobox,
-    TileInfoboxBorder,
-    TileInfobox,
+    TileInfobox
 )
 from classes.game.logic.GameHandler import GameHandler
 from const.colors import *
@@ -21,36 +19,32 @@ class Game:
         self.board = Board(self.canvas, GameHandler.get_instance().board.width)
 
         # Initialize Screen elements
-        tiles = self.board.get_tiles()
+        self.tiles = self.board.get_tiles()
 
         self.shop = Shop(self.canvas)
         self.shop_button = ShopButton(self.canvas, self.shop, self.board)
         self.end_turn_button = EndTurnButton(self.canvas, self.end_phase)
-        self.player_infobox_border = PlayerInfoboxBorder(self.canvas)
         self.player_infobox = PlayerInfobox(self.canvas)
-        self.tile_infobox_border = TileInfoboxBorder(self.canvas)
         self.tile_infobox = TileInfobox(self.canvas)
         self.inventory = Inventory(self.canvas)
-
-        self.elements = [
-            self.board,
-            *tiles,
-            self.shop,
-            self.shop_button,
-            self.end_turn_button,
-            self.player_infobox_border,
-            self.player_infobox,
-            self.tile_infobox_border,
-            self.tile_infobox,
-            self.shop.card_layout,
-            *self.shop.shop_cards,
-            self.inventory,
-            self.inventory.cards
-        ]
 
         self.draw_self()
 
     def draw_self(self):
+        self.elements = [
+            self.board,
+            *self.tiles,
+            self.shop,
+            self.shop_button,
+            self.end_turn_button,
+            self.player_infobox,
+            self.tile_infobox,
+            self.shop.card_layout,
+            *self.shop.shop_cards,
+            self.inventory,
+            *self.inventory.cards
+        ]
+
         for element in self.elements:
             if not element:
                 continue

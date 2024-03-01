@@ -4,26 +4,6 @@ from classes.game.logic.GameHandler import GameHandler
 from const.colors import *
 from const.params import *
 
-
-class PlayerInfoboxBorder(ScreenElement):
-    def __init__(self, canvas):
-        super().__init__(canvas, COLOR_PLAYER_INFOBOX_BORDER, hoverable=False)
-
-    def set_dimensions(self):
-        _, height_canvas = super().get_canvas_dimensions()
-
-        self.width = PLAYER_INFO_BOX_WIDTH + 2 * RECT_BORDER
-        self.height = PLAYER_INFO_BOX_HEIGHT + 2 * RECT_BORDER
-        self.top = self.margin_top - RECT_BORDER
-        self.left = height_canvas - RECT_BORDER
-
-    def draw_self(self):
-        super().draw_self()
-
-    def on_click(self):
-        pass
-
-
 class PlayerInfobox(ScreenElement):
     def __init__(self, canvas):
         super().__init__(canvas, COLOR_PLAYER_INFOBOX, hoverable=False)
@@ -40,6 +20,16 @@ class PlayerInfobox(ScreenElement):
         self.left = height_canvas
 
     def draw_self(self):
+
+        border = pygame.rect.Rect(
+            self.left - RECT_BORDER,
+            self.top - RECT_BORDER,
+            self.width + 2 * RECT_BORDER,
+            self.height + 2 * RECT_BORDER
+        )
+
+        pygame.draw.rect(self.canvas, COLOR_PLAYER_INFOBOX_BORDER, border)
+
         super().draw_self()
 
         text = [
@@ -66,41 +56,6 @@ class PlayerInfobox(ScreenElement):
     def on_click(self):
         pass
 
-
-class TileInfoboxBorder(ScreenElement):
-    def __init__(self, canvas):
-        super().__init__(canvas, COLOR_TILE_INFOBOX_BORDER, hoverable=False)
-        self.is_visible = False
-
-    def set_dimensions(self):
-        _, height_canvas = super().get_canvas_dimensions()
-
-        self.width = TILE_INFO_BOX_WIDTH + 2 * RECT_BORDER
-        self.height = TILE_INFO_BOX_HEIGHT + 2 * RECT_BORDER
-        self.top = (
-            self.margin_top
-            + PLAYER_INFO_BOX_HEIGHT
-            + SPACING_INFO_BOXES_HEIGHT
-            - RECT_BORDER
-        )
-        self.left = height_canvas - RECT_BORDER
-
-    def draw_self(self):
-        if not self.is_visible:
-            return
-
-        super().draw_self()
-
-    def on_click(self):
-        pass
-
-    def on_tile_hover(self, _):
-        self.is_visible = True
-    
-    def off_tile_hover(self):
-        self.is_visible = False
-
-
 class TileInfobox(ScreenElement):
     def __init__(self, canvas):
         super().__init__(canvas, COLOR_TILE_INFOBOX, hoverable=False)
@@ -121,6 +76,15 @@ class TileInfobox(ScreenElement):
         if not self.is_visible:
             return
         
+        border = pygame.rect.Rect(
+            self.left - RECT_BORDER,
+            self.top - RECT_BORDER,
+            self.width + 2 * RECT_BORDER,
+            self.height + 2 * RECT_BORDER
+        )
+
+        pygame.draw.rect(self.canvas, COLOR_PLAYER_INFOBOX_BORDER, border)
+
         super().draw_self()
         ownerName = getattr(getattr(self.hover_tile, 'owner', None), 'name', "neutral")
         troopName = getattr(getattr(self.hover_tile, 'troop', None), 'name', "")

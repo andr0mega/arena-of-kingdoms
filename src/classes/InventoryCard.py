@@ -2,7 +2,7 @@ import math
 import pygame
 from classes.ScreenElement import ScreenElement
 from classes.game.logic.GameHandler import GameHandler
-from const.colors import COLOR_SHOP_CARD, COLOR_SHOP_TEXT
+from const.colors import COLOR_CARD, COLOR_SHOP_TEXT, COLOR_CARD_BORDER
 from const.sprites import SPRITES
 
 
@@ -13,7 +13,7 @@ class InventoryCard(ScreenElement):
         self.width = 0
         self.height = 0
 
-        super().__init__(canvas, COLOR_SHOP_CARD, hoverable=True)
+        super().__init__(canvas, COLOR_CARD, hoverable=True)
 
         self.border_radius = 8
         self.title_font_size = 28
@@ -28,6 +28,15 @@ class InventoryCard(ScreenElement):
         pass
 
     def draw_self(self):
+
+        card_border = pygame.rect.Rect(
+            self.left - 2,
+            self.top - 2,
+            self.width + 4,
+            self.height + 4
+        )
+
+        pygame.draw.rect(self.canvas, COLOR_CARD_BORDER, card_border, border_radius=10)
 
         super().draw_self()
 

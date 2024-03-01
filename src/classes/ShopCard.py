@@ -2,7 +2,7 @@ import math
 import pygame
 from classes.ScreenElement import ScreenElement
 from classes.game.logic.GameHandler import GameHandler
-from const.colors import COLOR_SHOP_CARD, COLOR_SHOP_TEXT
+from const.colors import COLOR_CARD, COLOR_SHOP_TEXT
 from const.sprites import SPRITES
 
 
@@ -13,7 +13,7 @@ class ShopCard(ScreenElement):
         self.width = 0
         self.height = 0
 
-        super().__init__(canvas, COLOR_SHOP_CARD, hoverable=True)
+        super().__init__(canvas, COLOR_CARD, hoverable=True)
 
         self.border_radius = 8
         self.title_font_size = 28
@@ -107,7 +107,7 @@ class ShopCard(ScreenElement):
 
     def render_price(self):
         # Render price background
-        price_background_color = tuple(color - 25 for color in COLOR_SHOP_CARD)
+        price_background_color = tuple(color - 25 for color in COLOR_CARD)
         price_background_height = self.height / 10
         price_background_width = (self.width / 10) * 9
         price_background_left = self.left + self.width / 2 - price_background_width / 2

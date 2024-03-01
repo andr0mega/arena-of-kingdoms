@@ -1,14 +1,14 @@
 import math
 from classes.ScreenElement import ScreenElement
 from const.colors import COLOR_WINDOW
-from const.params import MARGIN_TOP, MARGIN_BOTTOM, MARGIN_RIGHT
+from const.params import *
 from classes.game.logic.GameHandler import GameHandler
 from classes.InventoryCard import InventoryCard
 
 
 class Inventory(ScreenElement):
     def __init__(self, canvas):
-        self.cards = None
+        self.cards = []
         super().__init__(canvas, COLOR_WINDOW)
 
         self.game_handler = GameHandler.get_instance()
@@ -38,10 +38,10 @@ class Inventory(ScreenElement):
         card_width = self.width
         card_height = self.width / 3 * 4
 
-        for card in self.cards:
+        for i, card in enumerate(self.cards):
             card.adjust_dimensions(
                 self.left,
-                self.top + self.height - card_height,
+                self.top + i * (self.height - card_height) // 6,
                 card_width,
                 card_height
             )
