@@ -20,6 +20,16 @@ class Inventory(ScreenElement):
         self.margin_bottom = 120
         self.margin_right = 10
 
+        self.game_handler.subscribe_event_listener(self.on_inventory_change)
+
+    def on_inventory_change(self, event):
+        if event is EVENTS["INVENTORY_CHANGE"]:
+            print('le inventory change')
+            self.cards = [
+                InventoryCard(self.canvas, card_info)
+                for card_info in self.game_handler.get_current_player().inventory
+            ]
+
     def set_dimensions(self):
         width_canvas, height_canvas = super().get_canvas_dimensions()
         self.height = height_canvas - self.margin_top - self.margin_bottom
@@ -32,8 +42,6 @@ class Inventory(ScreenElement):
 
         if not len(self.game_handler.get_current_player().inventory):
             return
-        
-        self.cards = [InventoryCard(self.canvas, card_info) for card_info in self.game_handler.get_current_player().inventory]
 
         card_width = self.width
         card_height = self.width / 3 * 4
@@ -43,7 +51,7 @@ class Inventory(ScreenElement):
                 self.left,
                 self.top + i * (self.height - card_height) // 6,
                 card_width,
-                card_height
+                card_height,
             )
 
             card.draw_self()

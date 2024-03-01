@@ -18,6 +18,9 @@ TILE_INFO_BOX_WIDTH = 300
 TILE_INFO_BOX_HEIGHT = 180
 SPACING_INFO_BOXES_HEIGHT = 20
 
+EVENTS = {
+    "INVENTORY_CHANGE": "inventory_change",
+}
 
 
 GAME_SETTINGS = json.dumps(
@@ -51,7 +54,6 @@ TROOPS = json.dumps(
             "upkeep": 3,
             "attack_range": 1,
             "description": "Slow but powerful offensive unit",
-            
         }
     ]
 )

@@ -48,6 +48,19 @@ class GameHandler:
             cls._instance = GameHandler()
         return cls._instance
 
+    # ---------------------------- EVENT LISTENERS START ------------------------------
+
+    event_listeners = []
+
+    def subscribe_event_listener(self, listener):
+        self.event_listeners.append(listener)
+
+    def notify_event_listeners(self, event):
+        for listener in self.event_listeners:
+            listener(event)
+
+    # ---------------------------- EVENT LISTENERS END ------------------------------
+
     # Method clears handler ->
     def clear_handler(self):
         self.board = None
@@ -119,18 +132,22 @@ class GameHandler:
                 self.board.fields[x][y].owner = player
         self.__get_current_action_log().append(PlaceAction(coordinates, king))
         return True
+
     # ---------------------------- DEPLOYMENT ACTIONS END ------------------------------
 
     # ---------------------------- GEARUP ACTIONS START ------------------------------
     def buy_shop_item(self, unitConfig: UnitConfig):
         player = self.get_current_player()
-        if(self.phase == GamePhase.GEARUP):
-            if(player.balance >= unitConfig.cost):
-                if(len(player.inventory) < 7):
+        if self.phase == GamePhase.GEARUP:
+            if player.balance >= unitConfig.cost:
+                if len(player.inventory) < 7:
                     newUnit = unitConfig.create_from_config()
                     player.add_unit(newUnit)
                     player.reduce_balance(unitConfig.cost)
                     self.__get_current_action_log().append(BuyAction(newUnit))
+
+                    self.notify_event_listeners(EVENTS["INVENTORY_CHANGE"])
+
                     return True
         return False
 
@@ -138,14 +155,18 @@ class GameHandler:
         field = self.board.fields[coordinates.x][coordinates.y]
         if not unit in self.get_current_player().inventory:
             return False
-        if not field.owner == self.get_current_player() and  field.troop == None and (field.building == None or not field.building.blocking):
+        if (
+            not field.owner == self.get_current_player()
+            and field.troop == None
+            and (field.building == None or not field.building.blocking)
+        ):
             return False
 
         placeAction = PlaceAction(coordinates, unit)
         self.get_current_player().inventory.remove(unit)
-        if(isinstance(unit, Troop)):
+        if isinstance(unit, Troop):
             field.troop = unit
-        elif(isinstance(unit, Building)):
+        elif isinstance(unit, Building):
             field.building = unit
         self.__get_current_action_log().append(placeAction)
         return True
@@ -154,17 +175,27 @@ class GameHandler:
 
     # ------------------------------- COMBAT ACTIONS START -----------------------------
 
-    def move_unit(self, coordinates_from:GameCoordinate, coordinates_to:GameCoordinate):
-        moveToTuple = tuple([coordinates_to.x,coordinates_to.y])
+    def move_unit(
+        self, coordinates_from: GameCoordinate, coordinates_to: GameCoordinate
+    ):
+        moveToTuple = tuple([coordinates_to.x, coordinates_to.y])
         possible_fields = self.get_possible_moves(coordinates_from)
-        if(possible_fields != None and moveToTuple in possible_fields):
+        if possible_fields != None and moveToTuple in possible_fields:
             moveFieldFrom = self.board.fields[coordinates_from.x][coordinates_from.y]
             moveFieldTo = self.board.fields[coordinates_to.x][coordinates_to.y]
-            if(moveFieldFrom.troop != None and moveFieldFrom.troop in self.get_current_player().units):
-                moveAction = MoveAction(moveFieldFrom.troop, coordinates_from, coordinates_to, GameBoard.calculate_distance(coordinates_from, coordinates_to))
+            if (
+                moveFieldFrom.troop != None
+                and moveFieldFrom.troop in self.get_current_player().units
+            ):
+                moveAction = MoveAction(
+                    moveFieldFrom.troop,
+                    coordinates_from,
+                    coordinates_to,
+                    GameBoard.calculate_distance(coordinates_from, coordinates_to),
+                )
                 moveFieldTo.troop = moveFieldFrom.troop
                 moveFieldFrom.troop = None
-                #if troop is claiming field (maybe some will not claim fields)
+                # if troop is claiming field (maybe some will not claim fields)
                 moveFieldTo.owner = self.get_current_player()
                 self.__get_current_action_log().append(moveAction)
                 return True
@@ -184,10 +215,12 @@ class GameHandler:
                 # turn-order is over, switch to new phase / round
                 self.current_player_index = 0
                 self.__end_phase()
+
+            self.notify_event_listeners(EVENTS["INVENTORY_CHANGE"])
             pass
         return False
 
-    # returns possible move-fields for the troop on the field 
+    # returns possible move-fields for the troop on the field
     # if there is a troop, and it belongs to the current player - None otherwise
     def get_possible_moves(self, coordinates) -> list:
         checkField = self.board.fields[coordinates.x][coordinates.y]
@@ -200,15 +233,14 @@ class GameHandler:
             )
         return None
 
-
-    # returns possible attack-fields for the troop on the field 
+    # returns possible attack-fields for the troop on the field
     # if there is a troop, and it belongs to the current player - None otherwise
     def get_possible_attacks(self, coordinates) -> list:
         print(f"possible attacks in handler: {str(coordinates)}")
         checkField = self.board.fields[coordinates.x][coordinates.y]
         moveTroop = checkField.troop
         if moveTroop != None and moveTroop in self.get_current_player().units:
-            #TODO: get attackable tiles
+            # TODO: get attackable tiles
             return []
         return None
 

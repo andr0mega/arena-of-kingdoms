@@ -28,12 +28,8 @@ class InventoryCard(ScreenElement):
         pass
 
     def draw_self(self):
-
         card_border = pygame.rect.Rect(
-            self.left - 2,
-            self.top - 2,
-            self.width + 4,
-            self.height + 4
+            self.left - 2, self.top - 2, self.width + 4, self.height + 4
         )
 
         pygame.draw.rect(self.canvas, COLOR_CARD_BORDER, card_border, border_radius=10)
