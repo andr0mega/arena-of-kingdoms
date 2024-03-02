@@ -37,6 +37,9 @@ class EventHandler:
             except:
                 print(f"on_selected_tile_clear not implemented by subscriber type: {str(type(subscriber))}")
             
+            
+
+
 
     def on_mouse_motion(self):
         pos = pygame.mouse.get_pos()

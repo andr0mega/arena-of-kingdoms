@@ -55,5 +55,26 @@ class Inventory(ScreenElement):
                 card_height,
             )
 
+    def get_cards(self):
+        for card_index, card in enumerate(self.cards):
+            card.card_index = card_index
+
+        hovered_cards = list(filter(lambda el: el.hover is True, self.cards))
+        hovered_card = hovered_cards[0] if len(hovered_cards) > 0 else None
+        visual_hovered_card = None
+
+        if hovered_card is not None:
+            hovered_card.card_index = len(self.cards)
+            visual_hovered_card = InventoryCard(self.canvas, hovered_card.card_info, hovered_card.card_index, True)
+            visual_hovered_card.adjust_dimensions(
+                hovered_card.left,
+                hovered_card.top,
+                hovered_card.width,
+                hovered_card.height,
+            )
+            visual_hovered_card.on_hover(True)
+
+        return [*self.cards, visual_hovered_card]
+
     def on_click(self):
         pass

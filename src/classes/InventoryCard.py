@@ -7,12 +7,13 @@ from const.sprites import SPRITES
 
 
 class InventoryCard(ScreenElement):
-    def __init__(self, canvas, card_info, card_index):
+    def __init__(self, canvas, card_info, card_index, visual_only=False):
         self.left = 0
         self.top = 0
         self.width = 0
         self.height = 0
         self.card_index = card_index
+        self.visual_only = visual_only
 
         super().__init__(canvas, COLOR_CARD, hoverable=True)
 
@@ -75,4 +76,5 @@ class InventoryCard(ScreenElement):
         self.height = height
 
     def on_click(self):
-        print(f"Clicked on {self.card_info.name} : {str(type(self.card_info))}")
+        if self.hover and not self.visual_only:
+            print(f"Clicked on {self.card_info.name} : {str(type(self.card_info))}")

@@ -2,13 +2,11 @@ from classes.EndTurnButton import EndTurnButton
 from classes.Board import Board
 from classes.Shop import Shop
 from classes.ShopButton import ShopButton
-from classes.Infobox import (
-    PlayerInfobox,
-    TileInfobox
-)
+from classes.Infobox import PlayerInfobox, TileInfobox
 from classes.game.logic.GameHandler import GameHandler
 from const.colors import *
 from classes.Inventory import Inventory
+
 
 class Game:
     def __init__(self, canvas):
@@ -42,7 +40,7 @@ class Game:
             self.shop.card_layout,
             *self.shop.shop_cards,
             self.inventory,
-            *self.inventory.cards
+            *self.inventory.get_cards(),
         ]
 
         for element in self.elements:
@@ -53,4 +51,3 @@ class Game:
 
     def end_phase(self):
         turn_ended = GameHandler.get_instance().end_turn()
-
