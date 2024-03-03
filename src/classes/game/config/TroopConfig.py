@@ -6,6 +6,7 @@ class TroopConfig(UnitConfig):
     def __init__(
         self,
         display_name: str,
+        owner_name: str,
         name: str,
         cost: int,
         health: int,
@@ -17,7 +18,7 @@ class TroopConfig(UnitConfig):
         description: str,
         
     ):
-        super().__init__(name, display_name, description, cost)
+        super().__init__(name, display_name, owner_name, description, cost)
         self.health = health
         self.offense = offense
         self.defense = defense
@@ -30,6 +31,7 @@ class TroopConfig(UnitConfig):
         return Troop(
             self.name,
             self.display_name,
+            self.owner_name,
             self.health,
             self.offense,
             self.defense,

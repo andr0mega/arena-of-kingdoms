@@ -13,6 +13,7 @@ class GameConfig:
         buildings = json.loads(BUILDINGS)
         self.king_config = TroopConfig(
             king_param["display_name"],
+            king_param["owner_name"],
             king_param["name"],
             king_param["cost"],
             king_param["health"],
@@ -26,6 +27,7 @@ class GameConfig:
         self.troops = [
             TroopConfig(
                 troop["display_name"],
+                troop["owner_name"],
                 troop["name"],
                 troop["cost"],
                 troop["health"],
@@ -42,6 +44,7 @@ class GameConfig:
         self.buildings = [
             BuildingConfig(
                 building["display_name"],
+                building["owner_name"],
                 building["name"],
                 building["cost"],
                 building["health"],

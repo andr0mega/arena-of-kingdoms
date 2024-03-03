@@ -6,6 +6,7 @@ class Troop(Unit):
         self,
         name: str,
         display_name: str,
+        owner_name: str,
         health: int,
         offense: int,
         defense: int,
@@ -14,6 +15,7 @@ class Troop(Unit):
         attack_range: int,
     ):
         self.display_name = display_name
+        self.owner_name = owner_name
         self.name = name
         self.health = health
         self.max_health = health

@@ -30,6 +30,7 @@ GAME_SETTINGS = json.dumps(
 KING = json.dumps(
     {
         "display_name": "King",
+        "owner_name": "",
         "name": "king",
         "cost": 0,
         "health": 6,
@@ -45,6 +46,7 @@ TROOPS = json.dumps(
     [
         {
             "display_name": "Warrior",
+            "owner_name": "",
             "name": "warrior",
             "cost": 20,
             "health": 20,
@@ -62,6 +64,7 @@ BUILDINGS = json.dumps(
     [
         {
             "display_name": "Goldmine",
+            "owner_name": "",
             "name": "goldmine",
             "cost": 20,
             "health": 10,

@@ -128,6 +128,7 @@ class GameHandler:
         if len(player.get_units_of_type("king")) > 0:
             return False
         king = self.game_config.get_troop_config("king").create_from_config()
+        king.owner_name = player.name
         player.add_unit(king, False)
         self.board.fields[coordinates.x][coordinates.y].troop = king
         for x in range(coordinates.x - 1, coordinates.x + 2):
@@ -145,6 +146,7 @@ class GameHandler:
             if player.balance >= unitConfig.cost:
                 if len(player.inventory) < 7:
                     newUnit = unitConfig.create_from_config()
+                    newUnit.owner_name = player.name
                     player.add_unit(newUnit)
                     player.reduce_balance(unitConfig.cost)
                     self.__get_current_action_log().append(BuyAction(newUnit))

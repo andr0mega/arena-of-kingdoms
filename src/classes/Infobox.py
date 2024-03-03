@@ -65,10 +65,6 @@ class TileInfobox(ScreenElement):
         self.is_visible = False
 
     def set_dimensions(self):
-        _, height_canvas = super().get_canvas_dimensions()
-
-        self.width = TILE_INFO_BOX_WIDTH
-        self.height = TILE_INFO_BOX_HEIGHT
         self.left = pygame.mouse.get_pos()[0] + 20
         self.top = pygame.mouse.get_pos()[1] + 10
 
@@ -78,54 +74,70 @@ class TileInfobox(ScreenElement):
         
         self.set_dimensions()
 
-        border = pygame.rect.Rect(
-            self.left - RECT_BORDER,
-            self.top - RECT_BORDER,
-            self.width + 2 * RECT_BORDER,
-            self.height + 2 * RECT_BORDER
-        )
-
-        pygame.draw.rect(self.canvas, COLOR_PLAYER_INFOBOX_BORDER, border)
-
-        super().draw_self()
-        ownerName = getattr(getattr(self.hover_tile, 'owner', None), 'name', "neutral")
+        troopOwnerName = getattr(getattr(self.hover_tile, 'troop', None), 'owner_name', "")
         troopName = getattr(getattr(self.hover_tile, 'troop', None), 'name', "")
         troopHealth = getattr(getattr(self.hover_tile, 'troop', None), 'health', "")
         troopOffense = getattr(getattr(self.hover_tile, 'troop', None), 'offense', "")
         troopDefense = getattr(getattr(self.hover_tile, 'troop', None), 'defense', "")
         troopSpeed = getattr(getattr(self.hover_tile, 'troop', None), 'speed', "")
+        troopRange = getattr(getattr(self.hover_tile, 'troop', None), 'attack_range', "")
         troopUpkeep = getattr(getattr(self.hover_tile, 'troop', None), 'upkeep', "")
+        buildingOwnerName = getattr(getattr(self.hover_tile, 'building', None), 'owner_name', "")
         buildingName = getattr(getattr(self.hover_tile, 'building', None), 'name', "")
         buildingHealth = getattr(getattr(self.hover_tile, 'building', None), 'health', "")
+        buildingProduction = getattr(getattr(self.hover_tile, 'building', None), 'production', "")
 
-        text = []
-        if ownerName:
-            text.append(f"Tile Owner:  {ownerName}")
-        if troopName:
-            text.append(f"Unit Name:  {troopName}")
-        if troopHealth:
-            text.append(f"Unit Health:  {troopHealth}")
-        if troopOffense:
-            text.append(f"Unit Offense:  {troopOffense}")
-        if troopDefense:
-            text.append(f"Unit Defense:  {troopDefense}")
-        if troopSpeed:
-            text.append(f"Unit Speed:  {troopSpeed}")
-        if troopUpkeep:
-            text.append(f"Unit Upkeep:  {troopUpkeep}")
-        #if buildingName:
-        #text.append(f"Building name: {buildingName}")
-        #if buildingHealth:
-        #text.append(f"Building health: {buildingHealth}")
+        text = [
+            f"{troopOwnerName}'s {troopName}" if troopOwnerName and troopName else None,
+            f"Health: {troopHealth}" if troopHealth else None,
+            f"Offense: {troopOffense}" if troopOffense else None,
+            f"Defense: {troopDefense}" if troopDefense else None,
+            f"Speed: {troopSpeed}" if troopSpeed else None,
+            f"Range: {troopRange}" if troopRange else None,
+            f"Upkeep: {troopUpkeep}/turn" if troopUpkeep else None,
+            f"",
+            f"{buildingOwnerName}'s {buildingName}" if buildingOwnerName and buildingName else None,
+            f"Health: {buildingHealth}" if buildingHealth else None,
+            f"Production: {buildingProduction}/turn" if buildingProduction else None,
+        ]
 
+        line_top = self.top + 5
+        text_offset_ratio = 2
+        text_to_render = []
 
-        line_break = 0
-        for line in text:
-            render_line = self.font.render(line, True, COLOR_TILE_INFOBOX_TEXT)
+        for i, line in enumerate(text):
+            if not line:
+                continue
+
+            render_text = self.font.render(line, True, COLOR_TILE_INFOBOX_TEXT)
+
+            if i:
+                line_top = line_top + render_text.get_height() + text_offset_ratio
+                
             line_left = self.left + 5
-            line_top = self.top + 5 + line_break
-            line_break += render_line.get_rect()[3] + 2
-            self.canvas.blit(render_line, (line_left, line_top))
+
+            text_to_render.append((render_text, (line_left, line_top)))
+        
+        if len(text_to_render):
+            max_width = max(map(lambda line: line[0].get_width(), text_to_render))
+            self.height = line_top + text_to_render[-1][0].get_height() + text_offset_ratio - self.top + 5
+            self.width = max_width + 10
+            border = pygame.rect.Rect(
+                self.left - RECT_BORDER,
+                self.top - RECT_BORDER,
+                self.width + 2 * RECT_BORDER,
+                self.height + 2 * RECT_BORDER
+            )
+            pygame.draw.rect(self.canvas, COLOR_PLAYER_INFOBOX_BORDER, border)
+        else:
+            self.height = 0
+            self.width = 0
+            self.is_visible = False
+
+        super().draw_self()
+
+        for line in text_to_render:
+            self.canvas.blit(line[0], line[1])
 
     def get_color(self):
         color = getattr(getattr(self.hover_tile, 'owner', None), 'color', None)
