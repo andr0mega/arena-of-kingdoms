@@ -38,11 +38,15 @@ class ImageHelper:
             self.image_storage_dict[tuple([MOVEABLE,width,height])] = pygame.transform.smoothscale(SPRITES[MOVEABLE], (width, height))
         return self.image_storage_dict[tuple([MOVEABLE,width,height])]
 
-    def get_image_possible_place(self):
-        return SPRITES[PLACEABLE]
+    def get_image_possible_place(self, width: int, height: int):
+        if not tuple([PLACEABLE,width,height]) in self.image_storage_dict:
+            self.image_storage_dict[tuple([PLACEABLE,width,height])] = pygame.transform.smoothscale(SPRITES[PLACEABLE], (width, height))
+        return self.image_storage_dict[tuple([PLACEABLE,width,height])]
 
-    def get_image_possible_attack(self):
-        return SPRITES[ATTACKABLE]
+    def get_image_possible_attack(self, width: int, height: int):
+        if not tuple([ATTACKABLE,width,height]) in self.image_storage_dict:
+            self.image_storage_dict[tuple([ATTACKABLE,width,height])] = pygame.transform.smoothscale(SPRITES[ATTACKABLE], (width, height))
+        return self.image_storage_dict[tuple([ATTACKABLE,width,height])]
     
     
 def get_image_for_troop(troopName: str):

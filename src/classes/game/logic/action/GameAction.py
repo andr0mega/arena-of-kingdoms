@@ -10,3 +10,4 @@ class ActionType(Enum):
     PLACE = 1
     MOVE = 2
     BUY = 3
+    ATTACK = 4

@@ -4,6 +4,7 @@ from typing import Dict
 from classes.game.config.TroopConfig import TroopConfig
 from classes.game.config.BuildingConfig import BuildingConfig
 from classes.game.logic.action.MoveAction import MoveAction
+from classes.game.logic.action.AttackAction import AttackAction
 from classes.game.logic.action.BuyAction import BuyAction
 from classes.game.config.GameConfig import GameConfig
 from classes.game.logic.unit.Troop import Troop
@@ -17,9 +18,11 @@ from classes.game.logic.GameValidator import (
     is_valid_turn,
     possible_move_positions,
     valid_king_position,
+    possible_attack_positions,
 )
 from classes.game.logic.action.PlaceAction import PlaceAction
 from classes.game.logic.unit.Unit import Unit
+from classes.game.logic.Field import Field
 import random
 
 #!!!IMPORTANT Singleton GameHandler
@@ -201,9 +204,24 @@ class GameHandler:
                 return True
         return False
 
-    def attack_unit(self, coordinates_from, coordinates_to):
-
-        pass
+    def attack_unit(self, coordinates_from: GameCoordinate, coordinates_to: GameCoordinate):
+        print(f"attacking from: {coordinates_from.x}/{coordinates_from.y} to: {coordinates_to.x}/{coordinates_to.y}")
+        possible_attacks = self.get_possible_attacks(coordinates_from)
+        attack_to_tuple = tuple([coordinates_to.x, coordinates_to.y])
+        if(possible_attacks != None and attack_to_tuple in possible_attacks):
+            attackTroop = self.board.fields[coordinates_from.x][coordinates_from.y].troop
+            attackedTroop = self.board.fields[coordinates_to.x][coordinates_to.y].troop
+            attackedTroop.health -= attackTroop.offense
+            attackTroop.health -= attackedTroop.defense
+            attackAction = AttackAction(
+                attackTroop,
+                attackedTroop,
+                coordinates_from,
+                coordinates_to
+                )
+            self.__get_current_action_log().append(attackAction)
+            return True
+        return False
 
     # ------------------------------- COMBAT ACTIONS END -------------------------------
 
@@ -222,7 +240,7 @@ class GameHandler:
 
     # returns possible move-fields for the troop on the field
     # if there is a troop, and it belongs to the current player - None otherwise
-    def get_possible_moves(self, coordinates) -> list:
+    def get_possible_moves(self, coordinates: GameCoordinate) -> list:
         checkField = self.board.fields[coordinates.x][coordinates.y]
         moveTroop = checkField.troop
         if moveTroop != None and moveTroop in self.get_current_player().units:
@@ -235,13 +253,13 @@ class GameHandler:
 
     # returns possible attack-fields for the troop on the field
     # if there is a troop, and it belongs to the current player - None otherwise
-    def get_possible_attacks(self, coordinates) -> list:
-        print(f"possible attacks in handler: {str(coordinates)}")
+    def get_possible_attacks(self, coordinates: GameCoordinate) -> list:
         checkField = self.board.fields[coordinates.x][coordinates.y]
-        moveTroop = checkField.troop
-        if moveTroop != None and moveTroop in self.get_current_player().units:
-            # TODO: get attackable tiles
-            return []
+        attackTroop = checkField.troop
+        if attackTroop != None and attackTroop in self.get_current_player().units:
+            if(self.__current_remaining_attack_dict()[attackTroop] == 0):
+                return []
+            return possible_attack_positions(attackTroop.attack_range, self.board, coordinates, self.get_current_player())
         return None
 
     # returns current player or None, if the game hasen't started (TODO: check game status)
@@ -270,6 +288,19 @@ class GameHandler:
             if type(action) == MoveAction:
                 moveDict[action.troop] = moveDict[action.troop] - action.distance
         return moveDict
+    
+    def __current_remaining_attack_dict(self) -> Dict:
+        actionLog = self.__get_current_action_log()
+        attackDict = {}
+        for troop in [
+            unit for unit in self.get_current_player().units if(type(unit) == Troop)
+        ]:
+            attackDict[troop] = 1#maybe more then one attack at some point
+            for action in actionLog:
+                if(type(action) == AttackAction):
+                    attackDict[action.attackTroop] = attackDict[action.attackTroop] - 1
+        return attackDict
+
 
     def __end_phase(self):
         # Deployment is only part of round 1

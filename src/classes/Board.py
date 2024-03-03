@@ -44,11 +44,17 @@ class Board(ScreenElement):
             moveFields = self.game_handler.get_possible_moves(
                 GameCoordinate(tile[0], tile[1])
             )
-            if moveFields != None:
+            attackFields = self.game_handler.get_possible_attacks(
+                GameCoordinate(tile[0], tile[1])
+            )
+            if moveFields != None or attackFields != None:
                 self.event_handler.clear_selected_tile()
                 for pMove in moveFields:
                     guiTile = self.board[pMove[0]][pMove[1]]
                     guiTile.set_movable(True)
+                for pAttack in attackFields:
+                    guiTile = self.board[pAttack[0]][pAttack[1]]
+                    guiTile.set_attackable(True)
                 self.event_handler.selected_unit_tile = tuple([tile[0], tile[1]])
             elif self.event_handler.selected_unit_tile != None:
                 # field is selected, check if move / attack field is selected, or clear moveable field

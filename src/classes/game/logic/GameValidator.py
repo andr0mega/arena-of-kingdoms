@@ -1,4 +1,6 @@
 from copy import copy, deepcopy
+from classes.game.logic.GameBoard import GameBoard
+from classes.game.logic.GamePlayer import GamePlayer
 
 
 def valid_king_position(gameHandler, coordinate):
@@ -62,3 +64,15 @@ def possible_move_positions(movement: int, board, start_coordinates):
     possibleFields = []
     __write_fields_recursive(board, movement, current, [], possibleFields)
     return possibleFields
+
+def possible_attack_positions(attack_range, board: GameBoard, start_coordinates, current_player: GamePlayer):
+    #Has to  be changed, as soon as blocking constructs enter the game
+    attackable_fields = []
+    for x in range(start_coordinates.x - attack_range, start_coordinates.x + attack_range + 1):
+        for y in range(start_coordinates.y - attack_range, start_coordinates.y + attack_range + 1):
+            if(x < 0 or y < 0 or x >= len(board.fields) or y >= len(board.fields[x])):
+                continue
+            fieldTroop = board.fields[x][y].troop
+            if(fieldTroop != None and not fieldTroop in current_player.units):
+                attackable_fields.append(tuple([x, y]))
+    return attackable_fields
