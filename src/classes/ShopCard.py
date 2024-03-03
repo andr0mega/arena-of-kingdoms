@@ -20,13 +20,9 @@ class ShopCard(ScreenElement):
         self.title_font = pygame.font.SysFont(
             "Rockwell", self.title_font_size, bold=True
         )
-        self.description_font_size = 18
-        self.description_font = pygame.font.SysFont(
-            "Rockwell", self.description_font_size
-        )
-        self.stats_font_size = 18
-        self.stats_font = pygame.font.SysFont(
-            "Rockwell", self.stats_font_size
+        self.text_font_size = 18
+        self.text_font = pygame.font.SysFont(
+            "Rockwell", self.text_font_size
         )
         self.card_info = card_info
         self.shop = shop
@@ -61,6 +57,13 @@ class ShopCard(ScreenElement):
 
         text_offset_ratio = 6.5
 
+        text_font_size = math.floor(self.width / 12)
+
+        # Don't re-create the font if it's the same size
+        if self.text_font_size != text_font_size:
+            self.text_font = pygame.font.SysFont("Rockwell", text_font_size)
+            self.text_font_size = text_font_size
+
         # Check if card is flipped and display different card properties
         if not self.flipped:
 
@@ -91,20 +94,14 @@ class ShopCard(ScreenElement):
             else:
                 description_1 = description
 
-            desc_font_size = math.floor(self.width / 12)
 
-            # Don't re-create the font if it's the same size
-            if self.description_font_size != desc_font_size:
-                self.description_font = pygame.font.SysFont("Rockwell", desc_font_size)
-                self.description_font_size = desc_font_size
-
-            render_text = self.description_font.render(description_1, True, COLOR_SHOP_TEXT)
+            render_text = self.text_font.render(description_1, True, COLOR_SHOP_TEXT)
             text_left = self.left + self.width / 2 - render_text.get_width() / 2
             text_top = self.top + (self.height / 10) * text_offset_ratio
             self.canvas.blit(render_text, (text_left, text_top))
 
             if len(description_2) > 0:
-                render_text = self.description_font.render(
+                render_text = self.text_font.render(
                     description_2, True, COLOR_SHOP_TEXT
                 )
                 text_left = self.left + self.width / 2 - render_text.get_width() / 2
@@ -130,20 +127,13 @@ class ShopCard(ScreenElement):
                 f"Upkeep: {upkeep}/turn" if upkeep else None,
                 f"Production: {production}/turn" if production else None,
             ]
-
-            stats_font_size = math.floor(self.width / 12)
-
-            # Don't re-create the font if it's the same size
-            if self.stats_font_size != stats_font_size:
-                self.stats_font = pygame.font.SysFont("Rockwell", stats_font_size)
-                self.stats_font_size = stats_font_size
             
             text_top = self.top + self.height / 10
 
             for line in stats:
                 if not line:
                     continue
-                render_text = self.stats_font.render(line, True, COLOR_SHOP_TEXT)
+                render_text = self.text_font.render(line, True, COLOR_SHOP_TEXT)
                 text_left = self.left + self.width / 5
                 text_top = text_top + render_text.get_height() + text_offset_ratio
                 self.canvas.blit(render_text, (text_left, text_top))
@@ -175,7 +165,7 @@ class ShopCard(ScreenElement):
 
         gold_icon_width = int(self.width / 12)
 
-        render_text = self.description_font.render(price, True, COLOR_SHOP_TEXT)
+        render_text = self.text_font.render(price, True, COLOR_SHOP_TEXT)
         price_text_width = render_text.get_width()
         price_combined_width = price_text_width + gold_icon_width
         text_left = self.left + self.width / 2 - price_combined_width / 2

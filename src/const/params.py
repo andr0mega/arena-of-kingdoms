@@ -14,7 +14,7 @@ END_TURN_BUTTON_WIDTH = 150
 END_TURN_BUTTON_HEIGHT = 50
 PLAYER_INFO_BOX_WIDTH = 300
 PLAYER_INFO_BOX_HEIGHT = 180
-TILE_INFO_BOX_WIDTH = 300
+TILE_INFO_BOX_WIDTH = 220
 TILE_INFO_BOX_HEIGHT = 180
 SPACING_INFO_BOXES_HEIGHT = 20
 
@@ -32,9 +32,9 @@ KING = json.dumps(
         "display_name": "King",
         "name": "king",
         "cost": 0,
-        "health": 50,
+        "health": 6,
         "offense": 3,
-        "defense": 3,
+        "defense": 2,
         "speed": 1,
         "upkeep": 0,
         "attack_range": 1,

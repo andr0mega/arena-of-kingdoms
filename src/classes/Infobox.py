@@ -69,13 +69,15 @@ class TileInfobox(ScreenElement):
 
         self.width = TILE_INFO_BOX_WIDTH
         self.height = TILE_INFO_BOX_HEIGHT
-        self.top = self.margin_top + PLAYER_INFO_BOX_HEIGHT + SPACING_INFO_BOXES_HEIGHT
-        self.left = height_canvas
+        self.left = pygame.mouse.get_pos()[0] + 20
+        self.top = pygame.mouse.get_pos()[1] + 10
 
     def draw_self(self):
         if not self.is_visible:
             return
         
+        self.set_dimensions()
+
         border = pygame.rect.Rect(
             self.left - RECT_BORDER,
             self.top - RECT_BORDER,
