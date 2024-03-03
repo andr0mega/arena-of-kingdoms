@@ -16,6 +16,7 @@ class Troop(Unit):
         self.display_name = display_name
         self.name = name
         self.health = health
+        self.max_health = health
         self.offense = offense
         self.defense = defense
         self.speed = speed

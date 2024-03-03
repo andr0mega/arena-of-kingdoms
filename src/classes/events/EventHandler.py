@@ -70,6 +70,7 @@ class EventHandler:
                         
 
     def on_mouse_buttondown(self):
+        mouse_button = pygame.mouse.get_pressed()
         pos = pygame.mouse.get_pos()
         click_elements = []
         tile_clicked = False
@@ -81,7 +82,7 @@ class EventHandler:
         if(not tile_clicked and self.selected_unit_tile != None):
             self.clear_selected_tile()
         for element in click_elements:
-            element.on_click()
+            element.on_click(mouse_button)
     
     def set_unit_tile(self, tile):
         self.selected_unit_tile = tile

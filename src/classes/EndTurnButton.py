@@ -30,5 +30,6 @@ class EndTurnButton(ScreenElement):
         text_top = self.top + (self.height - render_text.get_rect()[3]) / 2
         self.canvas.blit(render_text, (text_left, text_top))
 
-    def on_click(self):
-        self.on_click_callback()
+    def on_click(self, mouse_button):
+        if mouse_button[0]:
+            self.on_click_callback()

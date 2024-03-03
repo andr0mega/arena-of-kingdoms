@@ -35,13 +35,16 @@ class ShopButton(ScreenElement):
         text_top = self.top + (self.height - render_text.get_rect()[3]) / 2
         self.canvas.blit(render_text, (text_left, text_top))
 
-    def on_click(self):
-        if self.shop.isopen:
-            self.board.set_visibility(True)
-            self.shop.close_shop()
-        else:
-            self.board.set_visibility(False)
-            self.shop.open_shop()
+    def on_click(self, mouse_button):
+        if mouse_button[0]:
+            if self.shop.isopen:
+                self.board.set_visibility(True)
+                self.shop.close_shop()
+            else:
+                self.board.set_visibility(False)
+                for card in self.shop.shop_cards:
+                    card.flipped = False
+                self.shop.open_shop()
 
     def open_shop(self):
         self.shop.open_shop()

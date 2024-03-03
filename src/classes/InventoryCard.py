@@ -75,6 +75,7 @@ class InventoryCard(ScreenElement):
         self.width = width
         self.height = height
 
-    def on_click(self):
-        if self.hover and not self.visual_only:
-            print(f"Clicked on {self.card_info.name} : {str(type(self.card_info))}")
+    def on_click(self, mouse_button):
+        if mouse_button[0]:
+            if self.hover and not self.visual_only:
+                print(f"Clicked on {self.card_info.name} : {str(type(self.card_info))}")

@@ -102,7 +102,7 @@ class Board(ScreenElement):
                 guiTile.set_unit(gameTile.troop)
                 guiTile.set_building(gameTile.building)
 
-    def on_click(self):
+    def on_click(self, mouse_button):
         pass
 
     def get_tiles(self):

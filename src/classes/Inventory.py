@@ -76,5 +76,5 @@ class Inventory(ScreenElement):
 
         return [*self.cards, visual_hovered_card]
 
-    def on_click(self):
+    def on_click(self, mouse_button):
         pass

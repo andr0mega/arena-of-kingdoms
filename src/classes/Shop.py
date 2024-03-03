@@ -36,7 +36,7 @@ class Shop(ScreenElement):
         self.left = self.margin_left
         self.top = self.margin_top
 
-    def on_click(self):
+    def on_click(self, mouse_button):
         pass
 
     def draw_self(self):

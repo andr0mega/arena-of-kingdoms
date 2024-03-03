@@ -53,7 +53,7 @@ class PlayerInfobox(ScreenElement):
     def get_color(self):
         return self.gameHandler.get_current_player().color
 
-    def on_click(self):
+    def on_click(self, mouse_button):
         pass
 
 class TileInfobox(ScreenElement):
@@ -132,7 +132,7 @@ class TileInfobox(ScreenElement):
         else:
             return COLOR_TILE_INFOBOX
 
-    def on_click(self):
+    def on_click(self, mouse_button):
         pass
 
     def on_tile_hover(self, tile_position):

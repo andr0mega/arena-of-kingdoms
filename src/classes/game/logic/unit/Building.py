@@ -8,5 +8,6 @@ class Building(Unit):
         self.name = name
         self.display_name = display_name
         self.health = health
+        self.max_health = health
         self.blocking = blocking
         self.production = production

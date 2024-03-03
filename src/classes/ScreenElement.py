@@ -29,7 +29,7 @@ class ScreenElement:
     def set_dimensions(self):
         raise NotImplementedError("set_dimensions() must be implemented")
 
-    def on_click(self):
+    def on_click(self, mouse_button):
         print(f"{type(self).__name__} has no on_click method")
 
     def on_hover(self, hover):

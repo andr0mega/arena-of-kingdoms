@@ -97,5 +97,6 @@ class Tile(ScreenElement):
     def set_building(self, building):
         self.building = building
 
-    def on_click(self):
-        self.on_tile_click(self.tile_pos)
+    def on_click(self,mouse_button):
+        if mouse_button[0]:
+            self.on_tile_click(self.tile_pos)

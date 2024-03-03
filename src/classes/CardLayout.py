@@ -46,5 +46,5 @@ class CardLayout(ScreenElement):
             )
             card.draw_self()
 
-    def on_click(self):
+    def on_click(self, mouse_button):
         pass
